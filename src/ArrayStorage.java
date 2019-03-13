@@ -8,7 +8,8 @@ public class ArrayStorage {
     void clear() {
         for (int i = 0; i < size; i++) {
             storage[i] = null;
-        };
+        }
+        ;
         size = 0;
     }
 
@@ -19,26 +20,26 @@ public class ArrayStorage {
 
     Resume get(String uuid) {
         for (int i = 0; i < size; i++) {
-            if (storage[i].toString() == uuid){ return storage[i]; }
-        };
+            if (storage[i].toString().equals(uuid)) {
+                return storage[i];
+            }
+        }
         return null;
     }
 
     void delete(String uuid) {
         boolean removed = false;
         for (int i = 0; i < size; i++) {
-            if (storage[i].toString() == uuid){
+            if (storage[i].toString().equals(uuid) && !removed) {
                 storage[i] = null;
                 removed = true;
-
                 size--;
             }
 
-            if (removed){
-                storage[i] = storage[i+1];
+            if (removed) {
+                storage[i] = storage[i + 1];
             }
-        };
-
+        }
     }
 
     /**
@@ -47,8 +48,8 @@ public class ArrayStorage {
     Resume[] getAll() {
         Resume[] allResume = new Resume[size];
         for (int i = 0; i < size; i++) {
-            allResume[i]=storage[i];
-        };
+            allResume[i] = storage[i];
+        }
         return allResume;
     }
 
