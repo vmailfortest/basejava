@@ -53,10 +53,7 @@ public class ArrayStorage {
             return;
         }
 
-        for (int k = userId; k < size - 1; k++) {
-            storage[k] = storage[k + 1];
-        }
-        storage[size - 1] = null;
+        System.arraycopy(storage, userId + 1, storage, userId, size - userId);
         size--;
     }
 
