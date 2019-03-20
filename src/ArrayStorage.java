@@ -19,8 +19,8 @@ public class ArrayStorage {
             return;
         }
 
-        int userId = getIndex(resume.getUuid());
-        if (userId >= 0) {
+        int resumeIndex = getIndex(resume.getUuid());
+        if (resumeIndex >= 0) {
             System.out.println("ERROR: Resume is already exists!");
             return;
         }
@@ -30,30 +30,30 @@ public class ArrayStorage {
     }
 
     Resume get(String uuid) {
-        int userId = getIndex(uuid);
-        if (userId < 0) {
+        int resumeIndex = getIndex(uuid);
+        if (resumeIndex < 0) {
             System.out.println("ERROR: Resume not found!");
             return null;
         }
-        return storage[userId];
+        return storage[resumeIndex];
     }
 
     void update(Resume resume) {
-        int userId = getIndex(resume.getUuid());
-        if (userId < 0) {
+        int resumeIndex = getIndex(resume.getUuid());
+        if (resumeIndex < 0) {
             System.out.println("ERROR: Resume for update not found!");
         }
-        storage[userId] = resume;
+        storage[resumeIndex] = resume;
     }
 
     void delete(String uuid) {
-        int userId = getIndex(uuid);
-        if (userId < 0) {
+        int resumeIndex = getIndex(uuid);
+        if (resumeIndex < 0) {
             System.out.println("ERROR: Resume for delete not found!");
             return;
         }
 
-        System.arraycopy(storage, userId + 1, storage, userId, size - userId);
+        storage[resumeIndex] = storage[size - 1];
         size--;
     }
 
