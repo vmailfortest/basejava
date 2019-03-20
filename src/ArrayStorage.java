@@ -54,6 +54,7 @@ public class ArrayStorage {
         }
 
         storage[resumeIndex] = storage[size - 1];
+        storage[size - 1] = null;
         size--;
     }
 
