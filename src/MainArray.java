@@ -1,3 +1,6 @@
+import src.ru.javawebinar.basejava.model.Resume;
+import src.ru.javawebinar.basejava.storage.ArrayStorage;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

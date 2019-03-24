@@ -1,3 +1,5 @@
+package src.ru.javawebinar.basejava.model;
+
 /**
  * Initial resume class
  */

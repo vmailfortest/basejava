@@ -1,20 +1,20 @@
+package src.ru.javawebinar.basejava.storage;
+
+import src.ru.javawebinar.basejava.model.Resume;
+
 import java.util.Arrays;
 
 /**
  * Array based storage for Resumes
  */
-public class ArrayStorage {
-    private int storageSize = 10000;
-    private Resume[] storage = new Resume[storageSize];
-    private int size = 0;
-
-    void clear() {
+public class ArrayStorage extends AbstractArrayStorage {
+    public void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
-    void save(Resume resume) {
-        if (size == storageSize) {
+    public void save(Resume resume) {
+        if (size == STORAGE_LIMIT) {
             System.out.println("ERROR: Resume storage is full!");
             return;
         }
@@ -29,7 +29,7 @@ public class ArrayStorage {
         size++;
     }
 
-    Resume get(String uuid) {
+    public Resume get(String uuid) {
         int resumeIndex = getIndex(uuid);
         if (resumeIndex < 0) {
             System.out.println("ERROR: Resume not found!");
@@ -38,7 +38,7 @@ public class ArrayStorage {
         return storage[resumeIndex];
     }
 
-    void update(Resume resume) {
+    public void update(Resume resume) {
         int resumeIndex = getIndex(resume.getUuid());
         if (resumeIndex < 0) {
             System.out.println("ERROR: Resume for update not found!");
@@ -46,7 +46,7 @@ public class ArrayStorage {
         storage[resumeIndex] = resume;
     }
 
-    void delete(String uuid) {
+    public void delete(String uuid) {
         int resumeIndex = getIndex(uuid);
         if (resumeIndex < 0) {
             System.out.println("ERROR: Resume for delete not found!");
@@ -61,15 +61,15 @@ public class ArrayStorage {
     /**
      * @return array, contains only Resumes in storage (without null)
      */
-    Resume[] getAll() {
+    public Resume[] getAll() {
         return Arrays.copyOfRange(storage, 0, size);
     }
 
-    int size() {
+    public int size() {
         return size;
     }
 
-    private int getIndex(String uuid) {
+    protected int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 return i;
