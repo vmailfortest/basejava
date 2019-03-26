@@ -1,7 +1,7 @@
-package src.ru.javawebinar.basejava;
+package ru.javawebinar.basejava;
 
-import src.ru.javawebinar.basejava.model.Resume;
-import src.ru.javawebinar.basejava.storage.ArrayStorage;
+import ru.javawebinar.basejava.model.Resume;
+import ru.javawebinar.basejava.storage.ArrayStorage;
 
 /**
  * Test for your ArrayStorage implementation

@@ -1,6 +1,6 @@
-package src.ru.javawebinar.basejava.storage;
+package ru.javawebinar.basejava.storage;
 
-import src.ru.javawebinar.basejava.model.Resume;
+import ru.javawebinar.basejava.model.Resume;
 
 /**
  * Array based storage for Resumes
