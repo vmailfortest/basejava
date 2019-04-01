@@ -108,4 +108,14 @@ public class AbstractArrayStorageTest {
         }
         storage.save(new Resume());
     }
+
+    @Test(expected = NotExistStorageException.class)
+    public void updateNotExist() throws Exception {
+        storage.update(new Resume("dummy"));
+    }
+
+    @Test(expected = NotExistStorageException.class)
+    public void deleteNotExist() throws Exception {
+        storage.delete("dummy");
+    }
 }
