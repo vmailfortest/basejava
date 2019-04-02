@@ -19,7 +19,7 @@ public class AbstractArrayStorageTest {
     private static final Resume RESUME_2 = new Resume(UUID_2);
     private static final Resume RESUME_3 = new Resume(UUID_3);
 
-    AbstractArrayStorageTest(Storage arrayStorage) {
+    protected AbstractArrayStorageTest(Storage arrayStorage) {
         storage = arrayStorage;
     }
 
@@ -44,7 +44,7 @@ public class AbstractArrayStorageTest {
 
     @Test
     public void getAll() {
-        Resume[] expected =  new Resume[]{RESUME_1,RESUME_2,RESUME_3};
+        Resume[] expected = new Resume[]{RESUME_1, RESUME_2, RESUME_3};
         assertEquals(storage.size(), storage.getAll().length);
         assertArrayEquals(expected, storage.getAll());
     }
@@ -58,17 +58,13 @@ public class AbstractArrayStorageTest {
     public void update() {
         Resume updateResume = new Resume(UUID_1);
         storage.update(updateResume);
-        assertEquals(updateResume, storage.get(UUID_1));
+        assertSame(updateResume, storage.get(UUID_1));
     }
 
     @Test(expected = NotExistStorageException.class)
     public void delete() throws Exception {
-        try {
-            storage.delete(UUID_2);
-            assertEquals(2, storage.size());
-        } catch (StorageException e) {
-            fail("Failed to deleted element");
-        }
+        storage.delete(UUID_2);
+        assertEquals(2, storage.size());
         storage.get(UUID_2);
     }
 
