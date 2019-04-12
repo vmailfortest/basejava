@@ -23,7 +23,7 @@ public abstract class AbstractStorage implements Storage {
             throw new ExistStorageException(resume.getUuid());
         }
 
-        insertElement(resume, index);
+        insertResume(resume, index);
     }
 
     @Override
@@ -51,7 +51,7 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract void replaceResume(Resume resume, int index);
 
-    protected abstract void insertElement(Resume resume, int index);
+    protected abstract void insertResume(Resume resume, int index);
 
     protected abstract void deleteResume(int index);
 }

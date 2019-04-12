@@ -3,9 +3,10 @@ package ru.javawebinar.basejava.storage;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ListStorage extends AbstractStorage {
-    ArrayList<Resume> storage = new ArrayList<Resume>();
+    private List<Resume> storage = new ArrayList<Resume>();
 
     @Override
     public void clear() {
@@ -44,7 +45,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void insertElement(Resume resume, int index) {
+    protected void insertResume(Resume resume, int index) {
         storage.add(resume);
     }
 
