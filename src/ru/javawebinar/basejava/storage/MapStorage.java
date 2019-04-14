@@ -6,39 +6,46 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MapStorage extends AbstractStorage {
-    private Map<String, Resume> storage = new HashMap<String, Resume>();
+    private Map<Integer, Resume> storage = new HashMap<Integer, Resume>();
+    private Map<String, Integer> uuidToKey = new HashMap<String, Integer>();
+    private int key = 0;
 
     @Override
     protected int getIndex(String uuid) {
-        if (storage.get(uuid) == null) {
+        Integer result = uuidToKey.get(uuid);
+        if (result == null) {
             return -1;
         }
-        return 1;
+        return result;
     }
 
     @Override
-    protected Resume getResume(String uuid, int index) {
-        return storage.get(uuid);
+    protected Resume getResume(int index) {
+        return storage.get(index);
     }
 
     @Override
     protected void replaceResume(Resume resume, int index) {
-        storage.put(resume.getUuid(), resume);
+        storage.put(index, resume);
     }
 
     @Override
     protected void insertResume(Resume resume, int index) {
-        storage.put(resume.getUuid(), resume);
+        storage.put(key, resume);
+        uuidToKey.put(resume.getUuid(), key);
+        key++;
     }
 
     @Override
-    protected void deleteResume(String uuid, int index) {
-        storage.remove(uuid);
+    protected void deleteResume(int index) {
+        uuidToKey.remove(storage.get(index).getUuid());
+        storage.remove(index);
     }
 
     @Override
     public void clear() {
         storage.clear();
+        uuidToKey.clear();
     }
 
     @Override

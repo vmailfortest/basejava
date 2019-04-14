@@ -5,7 +5,6 @@ import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
-
     @Override
     public Resume get(String uuid) {
         int index = getIndex(uuid);
@@ -13,7 +12,7 @@ public abstract class AbstractStorage implements Storage {
             throw new NotExistStorageException(uuid);
         }
 
-        return getResume(uuid, index);
+        return getResume(index);
     }
 
     @Override
@@ -42,16 +41,16 @@ public abstract class AbstractStorage implements Storage {
             throw new NotExistStorageException(uuid);
         }
 
-        deleteResume(uuid, index);
+        deleteResume(index);
     }
 
     protected abstract int getIndex(String uuid);
 
-    protected abstract Resume getResume(String uuid, int index);
+    protected abstract Resume getResume(int index);
 
     protected abstract void replaceResume(Resume resume, int index);
 
     protected abstract void insertResume(Resume resume, int index);
 
-    protected abstract void deleteResume(String uuid, int index);
+    protected abstract void deleteResume(int index);
 }
