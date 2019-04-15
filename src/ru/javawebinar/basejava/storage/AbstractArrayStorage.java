@@ -2,6 +2,7 @@ package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
+import ru.javawebinar.basejava.model.SearchKey;
 
 import java.util.Arrays;
 
@@ -22,18 +23,18 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void deleteResume(int index) {
-        deleteElement(index);
+    protected void deleteResume(SearchKey searchKey) {
+        deleteElement(searchKey);
         storage[size - 1] = null;
         size--;
     }
 
     @Override
-    protected void insertResume(Resume resume, int index) {
+    protected void insertResume(Resume resume, SearchKey searchKey) {
         if (size == STORAGE_LIMIT) {
             throw new StorageException("Storage overflow", resume.getUuid());
         }
-        insertElement(resume, index);
+        insertElement(resume, searchKey);
         size++;
     }
 
@@ -46,17 +47,24 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getResume(int index) {
-        return storage[index];
+    protected Resume getResume(SearchKey searchKey) {
+        return storage[searchKey.getIndex()];
     }
 
     @Override
-    protected void replaceResume(Resume resume, int index) {
-        storage[index] = resume;
+    protected void replaceResume(Resume resume, SearchKey searchKey) {
+        storage[searchKey.getIndex()] = resume;
     }
 
-    protected abstract void insertElement(Resume resume, int index);
+    protected boolean verifySearchKey(SearchKey searchKey) {
+        if (searchKey.getIndex() < 0) {
+            return false;
+        }
+        return true;
+    }
 
-    protected abstract void deleteElement(int index);
+    protected abstract void insertElement(Resume resume, SearchKey searchKey);
+
+    protected abstract void deleteElement(SearchKey searchKey);
 
 }

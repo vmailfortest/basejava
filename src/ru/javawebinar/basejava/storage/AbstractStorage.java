@@ -3,54 +3,57 @@ package ru.javawebinar.basejava.storage;
 import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
+import ru.javawebinar.basejava.model.SearchKey;
 
 public abstract class AbstractStorage implements Storage {
     @Override
     public Resume get(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
+        SearchKey searchKey = getSearchKey(uuid);
+        if (!verifySearchKey(searchKey)) {
             throw new NotExistStorageException(uuid);
         }
 
-        return getResume(index);
+        return getResume(searchKey);
     }
 
     @Override
     public void save(Resume resume) {
-        int index = getIndex(resume.getUuid());
-        if (index >= 0) {
+        SearchKey searchKey = getSearchKey(resume.getUuid());
+        if (verifySearchKey(searchKey)) {
             throw new ExistStorageException(resume.getUuid());
         }
 
-        insertResume(resume, index);
+        insertResume(resume, searchKey);
     }
 
     @Override
     public void update(Resume resume) {
-        int index = getIndex(resume.getUuid());
-        if (index < 0) {
+        SearchKey searchKey = getSearchKey(resume.getUuid());
+        if (!verifySearchKey(searchKey)) {
             throw new NotExistStorageException(resume.getUuid());
         }
-        replaceResume(resume, index);
+        replaceResume(resume, searchKey);
     }
 
     @Override
     public void delete(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
+        SearchKey searchKey = getSearchKey(uuid);
+        if (!verifySearchKey(searchKey)) {
             throw new NotExistStorageException(uuid);
         }
 
-        deleteResume(index);
+        deleteResume(searchKey);
     }
 
-    protected abstract int getIndex(String uuid);
+    protected abstract SearchKey getSearchKey(String uuid);
 
-    protected abstract Resume getResume(int index);
+    protected abstract Resume getResume(SearchKey searchKey);
 
-    protected abstract void replaceResume(Resume resume, int index);
+    protected abstract void replaceResume(Resume resume, SearchKey searchKey);
 
-    protected abstract void insertResume(Resume resume, int index);
+    protected abstract void insertResume(Resume resume, SearchKey searchKey);
 
-    protected abstract void deleteResume(int index);
+    protected abstract void deleteResume(SearchKey searchKey);
+
+    protected abstract boolean verifySearchKey(SearchKey searchKey);
 }
