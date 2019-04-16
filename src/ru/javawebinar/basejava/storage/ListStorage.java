@@ -1,7 +1,6 @@
 package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.model.Resume;
-import ru.javawebinar.basejava.model.SearchKey;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +15,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     public Resume[] getAll() {
-        Resume[] result = storage.toArray(new Resume[0]);
-        return result;
+        return storage.toArray(new Resume[0]);
     }
 
     @Override
@@ -26,41 +24,37 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getResume(SearchKey searchKey) {
-        return storage.get(searchKey.getIndex());
+    protected Resume getResume(Object searchKey) {
+        return storage.get((Integer) searchKey);
     }
 
     @Override
-    protected void replaceResume(Resume resume, SearchKey searchKey) {
-        storage.set(searchKey.getIndex(), resume);
+    protected void replaceResume(Resume resume, Object searchKey) {
+        storage.set((Integer) searchKey, resume);
     }
 
     @Override
-    protected SearchKey getSearchKey(String uuid) {
-        SearchKey searchKey = new SearchKey();
+    protected Object getSearchKey(String uuid) {
         for (int i = 0; i < storage.size(); i++) {
             if (storage.get(i).getUuid().equals(uuid)) {
-                searchKey.setIndex(i);
-                break;
+                return i;
             }
         }
-        return searchKey;
+        return -1;
     }
 
-    protected boolean verifySearchKey(SearchKey searchKey) {
-        if (searchKey.getIndex() < 0) {
-            return false;
-        }
-        return true;
+    protected boolean verifySearchKey(Object searchKey) {
+        return (Integer) searchKey >= 0;
     }
 
     @Override
-    protected void insertResume(Resume resume, SearchKey searchKey) {
+    protected void insertResume(Resume resume, Object searchKey) {
         storage.add(resume);
     }
 
     @Override
-    protected void deleteResume(SearchKey searchKey) {
-        storage.remove(searchKey.getIndex());
+    protected void deleteResume(Object searchKey) {
+        int index = (Integer) searchKey;
+        storage.remove(index);
     }
 }

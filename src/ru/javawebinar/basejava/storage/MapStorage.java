@@ -1,44 +1,40 @@
 package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.model.Resume;
-import ru.javawebinar.basejava.model.SearchKey;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class MapStorage extends AbstractStorage {
-    private Map<String, Resume> storage = new HashMap<String, Resume>();
+    private Map<String, Resume> storage = new HashMap<>();
 
     @Override
-    protected SearchKey getSearchKey(String uuid) {
-        SearchKey searchKey = new SearchKey();
+    protected Object getSearchKey(String uuid) {
         try {
-            searchKey.setUuid(storage.get(uuid).getUuid());
+            return storage.get(uuid).getUuid();
         } catch (NullPointerException e) {
-            searchKey.setUuid("");
+            return "";
         }
-
-        return searchKey;
     }
 
     @Override
-    protected Resume getResume(SearchKey searchKey) {
-        return storage.get(searchKey.getUuid());
+    protected Resume getResume(Object searchKey) {
+        return storage.get(searchKey);
     }
 
     @Override
-    protected void replaceResume(Resume resume, SearchKey searchKey) {
-        storage.put(searchKey.getUuid(), resume);
+    protected void replaceResume(Resume resume, Object searchKey) {
+        storage.put((String) searchKey, resume);
     }
 
     @Override
-    protected void insertResume(Resume resume, SearchKey searchKey) {
+    protected void insertResume(Resume resume, Object searchKey) {
         storage.put(resume.getUuid(), resume);
     }
 
     @Override
-    protected void deleteResume(SearchKey searchKey) {
-        storage.remove(searchKey.getUuid());
+    protected void deleteResume(Object searchKey) {
+        storage.remove(searchKey);
     }
 
     @Override
@@ -48,8 +44,7 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     public Resume[] getAll() {
-        Resume[] result = storage.values().toArray(new Resume[0]);
-        return result;
+        return storage.values().toArray(new Resume[0]);
     }
 
     @Override
@@ -57,10 +52,7 @@ public class MapStorage extends AbstractStorage {
         return storage.size();
     }
 
-    protected boolean verifySearchKey(SearchKey searchKey) {
-        if (searchKey.getUuid().equals("")) {
-            return false;
-        }
-        return true;
+    protected boolean verifySearchKey(Object searchKey) {
+        return !searchKey.equals("");
     }
 }

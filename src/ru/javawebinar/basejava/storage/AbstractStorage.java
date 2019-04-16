@@ -3,12 +3,11 @@ package ru.javawebinar.basejava.storage;
 import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
-import ru.javawebinar.basejava.model.SearchKey;
 
 public abstract class AbstractStorage implements Storage {
     @Override
     public Resume get(String uuid) {
-        SearchKey searchKey = getSearchKey(uuid);
+        Object searchKey = getSearchKey(uuid);
         if (!verifySearchKey(searchKey)) {
             throw new NotExistStorageException(uuid);
         }
@@ -18,7 +17,7 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void save(Resume resume) {
-        SearchKey searchKey = getSearchKey(resume.getUuid());
+        Object searchKey = getSearchKey(resume.getUuid());
         if (verifySearchKey(searchKey)) {
             throw new ExistStorageException(resume.getUuid());
         }
@@ -28,16 +27,17 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void update(Resume resume) {
-        SearchKey searchKey = getSearchKey(resume.getUuid());
+        Object searchKey = getSearchKey(resume.getUuid());
         if (!verifySearchKey(searchKey)) {
             throw new NotExistStorageException(resume.getUuid());
         }
+
         replaceResume(resume, searchKey);
     }
 
     @Override
     public void delete(String uuid) {
-        SearchKey searchKey = getSearchKey(uuid);
+        Object searchKey = getSearchKey(uuid);
         if (!verifySearchKey(searchKey)) {
             throw new NotExistStorageException(uuid);
         }
@@ -45,15 +45,15 @@ public abstract class AbstractStorage implements Storage {
         deleteResume(searchKey);
     }
 
-    protected abstract SearchKey getSearchKey(String uuid);
+    protected abstract Object getSearchKey(String uuid);
 
-    protected abstract Resume getResume(SearchKey searchKey);
+    protected abstract Resume getResume(Object searchKey);
 
-    protected abstract void replaceResume(Resume resume, SearchKey searchKey);
+    protected abstract void replaceResume(Resume resume, Object searchKey);
 
-    protected abstract void insertResume(Resume resume, SearchKey searchKey);
+    protected abstract void insertResume(Resume resume, Object searchKey);
 
-    protected abstract void deleteResume(SearchKey searchKey);
+    protected abstract void deleteResume(Object searchKey);
 
-    protected abstract boolean verifySearchKey(SearchKey searchKey);
+    protected abstract boolean verifySearchKey(Object searchKey);
 }

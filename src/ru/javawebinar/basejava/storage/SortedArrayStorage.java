@@ -1,30 +1,26 @@
 package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.model.Resume;
-import ru.javawebinar.basejava.model.SearchKey;
 
 import java.util.Arrays;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
-    protected void insertElement(Resume resume, SearchKey searchKey) {
-        int index = -searchKey.getIndex() - 1;
-        System.arraycopy(storage, index, storage, index + 1,size - index);
-        storage[index] = resume;
+    protected void insertElement(Resume resume, int searchKey) {
+        searchKey = -searchKey - 1;
+        System.arraycopy(storage, searchKey, storage, searchKey + 1, size - searchKey);
+        storage[searchKey] = resume;
     }
 
     @Override
-    protected void deleteElement(SearchKey searchKey) {
-        System.arraycopy(storage, searchKey.getIndex() + 1, storage,
-                searchKey.getIndex(), size - searchKey.getIndex() - 1);
+    protected void deleteElement(int searchKey) {
+        System.arraycopy(storage, searchKey + 1, storage, searchKey, size - searchKey - 1);
     }
 
     @Override
-    protected SearchKey getSearchKey(String uuid) {
-        SearchKey searchKey = new SearchKey();
+    protected Object getSearchKey(String uuid) {
         Resume searchResume = new Resume(uuid);
-        searchKey.setIndex(Arrays.binarySearch(storage, 0, size, searchResume));
-        return searchKey;
+        return (Object) Arrays.binarySearch(storage, 0, size, searchResume);
     }
 }

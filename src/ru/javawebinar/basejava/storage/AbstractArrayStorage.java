@@ -2,7 +2,6 @@ package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
-import ru.javawebinar.basejava.model.SearchKey;
 
 import java.util.Arrays;
 
@@ -23,18 +22,18 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void deleteResume(SearchKey searchKey) {
-        deleteElement(searchKey);
+    protected void deleteResume(Object searchKey) {
+        deleteElement((Integer) searchKey);
         storage[size - 1] = null;
         size--;
     }
 
     @Override
-    protected void insertResume(Resume resume, SearchKey searchKey) {
+    protected void insertResume(Resume resume, Object searchKey) {
         if (size == STORAGE_LIMIT) {
             throw new StorageException("Storage overflow", resume.getUuid());
         }
-        insertElement(resume, searchKey);
+        insertElement(resume, (Integer) searchKey);
         size++;
     }
 
@@ -47,24 +46,21 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getResume(SearchKey searchKey) {
-        return storage[searchKey.getIndex()];
+    protected Resume getResume(Object searchKey) {
+        return storage[(Integer) searchKey];
     }
 
     @Override
-    protected void replaceResume(Resume resume, SearchKey searchKey) {
-        storage[searchKey.getIndex()] = resume;
+    protected void replaceResume(Resume resume, Object searchKey) {
+        storage[(Integer) searchKey] = resume;
     }
 
-    protected boolean verifySearchKey(SearchKey searchKey) {
-        if (searchKey.getIndex() < 0) {
-            return false;
-        }
-        return true;
+    protected boolean verifySearchKey(Object searchKey) {
+        return (Integer) searchKey >= 0;
     }
 
-    protected abstract void insertElement(Resume resume, SearchKey searchKey);
+    protected abstract void insertElement(Resume resume, int searchKey);
 
-    protected abstract void deleteElement(SearchKey searchKey);
+    protected abstract void deleteElement(int searchKey);
 
 }
