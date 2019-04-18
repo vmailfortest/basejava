@@ -18,6 +18,10 @@ public class AbstractArrayStorageTest {
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
     private static final String UUID_4 = "uuid4";
+    private static final String FULLNAME_1 = "Asd Fgh";
+    private static final String FULLNAME_2 = "Qwe Pok";
+    private static final String FULLNAME_3 = "Asd Wsx";
+    private static final String FULLNAME_4 = "Qaz Qasw";
 
     private static final Resume RESUME_1;
     private static final Resume RESUME_2;
@@ -25,10 +29,10 @@ public class AbstractArrayStorageTest {
     private static final Resume RESUME_4;
 
     static {
-        RESUME_1 = new Resume(UUID_1);
-        RESUME_2 = new Resume(UUID_2);
-        RESUME_3 = new Resume(UUID_3);
-        RESUME_4 = new Resume(UUID_4);
+        RESUME_1 = new Resume(UUID_1, FULLNAME_1);
+        RESUME_2 = new Resume(UUID_2, FULLNAME_2);
+        RESUME_3 = new Resume(UUID_3, FULLNAME_3);
+        RESUME_4 = new Resume(UUID_4, FULLNAME_4);
     }
 
     protected AbstractArrayStorageTest(Storage arrayStorage) {
@@ -77,7 +81,7 @@ public class AbstractArrayStorageTest {
 
     @Test
     public void update() {
-        Resume updateResume = new Resume(UUID_1);
+        Resume updateResume = new Resume(UUID_1, "UpdatedName");
         storage.update(updateResume);
         assertSame(updateResume, storage.get(UUID_1));
     }
