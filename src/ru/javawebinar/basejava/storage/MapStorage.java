@@ -9,7 +9,7 @@ public class MapStorage extends AbstractStorage {
     private Map<String, Resume> storage = new HashMap<>();
 
     @Override
-    protected Object getSearchKey(String uuid) {
+    protected String getSearchKey(String uuid) {
         try {
             return storage.get(uuid).getUuid();
         } catch (NullPointerException e) {
@@ -18,22 +18,22 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getResume(Object searchKey) {
+    protected Resume doGet(Object searchKey) {
         return storage.get(searchKey);
     }
 
     @Override
-    protected void replaceResume(Resume resume, Object searchKey) {
+    protected void doUpdate(Resume resume, Object searchKey) {
         storage.put((String) searchKey, resume);
     }
 
     @Override
-    protected void insertResume(Resume resume, Object searchKey) {
+    protected void doSave(Resume resume, Object searchKey) {
         storage.put(resume.getUuid(), resume);
     }
 
     @Override
-    protected void deleteResume(Object searchKey) {
+    protected void doDelete(Object searchKey) {
         storage.remove(searchKey);
     }
 
@@ -52,7 +52,7 @@ public class MapStorage extends AbstractStorage {
         return storage.size();
     }
 
-    protected boolean verifySearchKey(Object searchKey) {
+    protected boolean isExist(Object searchKey) {
         return storage.containsKey(searchKey);
     }
 }
