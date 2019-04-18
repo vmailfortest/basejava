@@ -3,8 +3,8 @@ package ru.javawebinar.basejava.storage;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class MapStorageTest extends AbstractArrayStorageTest {
-    public MapStorageTest() {
+public class MapUuidStorageTest extends AbstractArrayStorageTest {
+    public MapUuidStorageTest() {
         super(new MapStorage());
     }
 
