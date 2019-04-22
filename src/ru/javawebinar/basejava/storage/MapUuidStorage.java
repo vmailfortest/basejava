@@ -12,7 +12,7 @@ public class MapUuidStorage extends AbstractStorage {
         try {
             return storage.get(uuid).getUuid();
         } catch (NullPointerException e) {
-            return uuid;
+            return null;
         }
     }
 
@@ -54,6 +54,6 @@ public class MapUuidStorage extends AbstractStorage {
     }
 
     protected boolean isExist(Object searchKey) {
-        return storage.containsKey(searchKey);
+        return searchKey != null;
     }
 }
