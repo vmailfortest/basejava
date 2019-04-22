@@ -14,12 +14,12 @@ public class MapResumeStorage extends AbstractStorage {
 
     @Override
     protected Resume doGet(Object searchKey) {
-        return storage.get(((Resume) searchKey).getUuid());
+        return (Resume) searchKey;
     }
 
     @Override
     protected void doUpdate(Resume resume, Object searchKey) {
-        storage.put(((Resume) searchKey).getUuid(), resume);
+        storage.put(resume.getUuid(), resume);
     }
 
     @Override
