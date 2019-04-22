@@ -4,17 +4,17 @@ import org.junit.Before;
 import org.junit.Test;
 import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
-import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 public class AbstractStorageTest {
-    private Storage storage;
+    protected Storage storage;
 
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
@@ -66,7 +66,7 @@ public class AbstractStorageTest {
 
         List<Resume> actual = storage.getAllSorted();
 
-        assertEquals(storage.size(), storage.getAllSorted().size());
+        assertEquals(expected.size(), actual.size());
         assertEquals(expected, actual);
     }
 
@@ -114,18 +114,5 @@ public class AbstractStorageTest {
     @Test(expected = ExistStorageException.class)
     public void saveExist() throws Exception {
         storage.save(RESUME_1);
-    }
-
-    @Test(expected = StorageException.class)
-    public void saveOverflow() throws Exception {
-        storage.clear();
-        try {
-            for (int i = 0; i < AbstractArrayStorage.STORAGE_LIMIT; i++) {
-                storage.save(new Resume("test"));
-            }
-        } catch (StorageException e) {
-            fail("Failed when filled the storage");
-        }
-        storage.save(new Resume("test"));
     }
 }
