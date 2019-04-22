@@ -51,18 +51,13 @@ public class Resume implements Comparable<Resume> {
 
     @Override
     public String toString() {
-        return uuid;
+        return uuid + " : " + fullName;
     }
 
     @Override
     public int compareTo(Resume o) {
-        int result = 0;
-        if (this.getFullName() != null && o.getFullName() != null) {
-            result = this.getFullName().compareTo(o.getFullName());
-        }
-        if (result == 0) {
-            result = this.getUuid().compareTo(o.getUuid());
-        }
-        return result;
+        return (this.getFullName() != null && o.getFullName() != null)
+                ? this.getFullName().compareTo(o.getFullName())
+                : this.getUuid().compareTo(o.getUuid());
     }
 }
