@@ -5,33 +5,33 @@ import ru.javawebinar.basejava.model.Resume;
 import java.util.*;
 
 public class MapResumeStorage extends AbstractStorage {
-    private Map<Resume, Resume> storage = new HashMap<>();
+    private Map<String, Resume> storage = new HashMap<>();
 
     @Override
     protected void doSave(Resume resume, Object searchKey) {
-        storage.put(new Resume(resume.getUuid()), resume);
+        storage.put(resume.getUuid(), resume);
     }
 
     @Override
     protected Resume doGet(Object searchKey) {
-        return storage.get(new Resume((String) searchKey));
+        return storage.get(((Resume)searchKey).getUuid());
     }
 
     @Override
     protected void doUpdate(Resume resume, Object searchKey) {
-        storage.put(new Resume((String) searchKey), resume);
+        storage.put(((Resume) searchKey).getUuid(), resume);
     }
 
     @Override
     protected void doDelete(Object searchKey) {
-        storage.remove(new Resume((String) searchKey));
+        storage.remove(((Resume) searchKey).getUuid());
     }
 
     @Override
     public List<Resume> getAllSorted() {
         List<Resume> list = new ArrayList<>(storage.values());
         Collections.sort(list);
-        return new ArrayList<>(storage.values());
+        return list;
     }
 
     @Override
@@ -45,15 +45,15 @@ public class MapResumeStorage extends AbstractStorage {
     }
 
     @Override
-    protected String getSearchKey(String uuid) {
+    protected Resume getSearchKey(String uuid) {
         try {
-            return storage.get(new Resume(uuid)).getUuid();
+            return storage.get(uuid);
         } catch (NullPointerException e) {
-            return uuid;
+            return null;
         }
     }
 
     protected boolean isExist(Object searchKey) {
-        return storage.containsKey(new Resume((String) searchKey));
+        return searchKey != null;
     }
 }
