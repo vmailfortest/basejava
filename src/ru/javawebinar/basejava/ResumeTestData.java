@@ -6,23 +6,24 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 public class ResumeTestData {
     public static void main(String[] args) {
         Resume resume = new Resume("Vasya");
 
-        EnumMap<ContactType, String> contacts = new EnumMap<>(ContactType.class);
+        Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
         contacts.put(ContactType.SKYPE, "MySkype");
         contacts.put(ContactType.PHONE, "1234567890");
 
-        EnumMap<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
+        Map<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
 
-        AbstractSection objective = new TextSection(SectionType.OBJECTIVE);
-        AbstractSection personal = new TextSection(SectionType.PERSONAL);
-        AbstractSection achievement = new ListSection(SectionType.ACHIEVEMENT);
-        AbstractSection qualifications = new ListSection(SectionType.QUALIFICATIONS);
-        AbstractSection experience = new OrganizationSection(SectionType.EXPERIENCE);
-        AbstractSection education = new OrganizationSection(SectionType.EDUCATION);
+        AbstractSection objective = new TextSection();
+        AbstractSection personal = new TextSection();
+        AbstractSection achievement = new ListSection();
+        AbstractSection qualifications = new ListSection();
+        AbstractSection experience = new OrganizationSection();
+        AbstractSection education = new OrganizationSection();
 
         String objectiveContent = "Java Engineer";
         objective.setContent(objectiveContent);
@@ -67,12 +68,12 @@ public class ResumeTestData {
         educationContent.add(educationPosition1);
         education.setContent(educationContent);
 
-        sections.put(objective.getSectionType(), objective);
-        sections.put(personal.getSectionType(), personal);
-        sections.put(achievement.getSectionType(), achievement);
-        sections.put(qualifications.getSectionType(), qualifications);
-        sections.put(experience.getSectionType(), experience);
-        sections.put(education.getSectionType(), education);
+        sections.put(SectionType.OBJECTIVE, objective);
+        sections.put(SectionType.PERSONAL, personal);
+        sections.put(SectionType.ACHIEVEMENT, achievement);
+        sections.put(SectionType.QUALIFICATIONS, qualifications);
+        sections.put(SectionType.EXPERIENCE, experience);
+        sections.put(SectionType.EDUCATION, education);
 
         resume.setContacts(contacts);
         resume.setSections(sections);
