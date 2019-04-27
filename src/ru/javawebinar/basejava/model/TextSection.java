@@ -2,7 +2,7 @@ package ru.javawebinar.basejava.model;
 
 import java.util.Objects;
 
-public class TextSection extends AbstractSection<String> {
+public class TextSection extends AbstractSection {
 
     private String content;
 

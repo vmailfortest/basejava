@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class OrganizationSection extends AbstractSection<List<Position>> {
+public class OrganizationSection extends AbstractSection {
 
     private List<Position> content = new ArrayList<>();
 
