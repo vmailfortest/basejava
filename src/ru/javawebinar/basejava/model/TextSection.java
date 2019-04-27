@@ -6,12 +6,14 @@ public class TextSection extends AbstractSection<String> {
 
     private String content;
 
-    @Override
+    public TextSection(String content) {
+        this.content = content;
+    }
+
     public void setContent(String content) {
         this.content = content;
     }
 
-    @Override
     public String getContent() {
         return content;
     }
@@ -21,7 +23,7 @@ public class TextSection extends AbstractSection<String> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TextSection that = (TextSection) o;
-        return content.equals(that.content);
+        return Objects.equals(content, that.content);
     }
 
     @Override

@@ -23,11 +23,11 @@ public class Position {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Position position = (Position) o;
-        return title.equals(position.title) &&
-                periodStart.equals(position.periodStart) &&
-                periodEnd.equals(position.periodEnd) &&
-                shortDescription.equals(position.shortDescription) &&
-                longDescription.equals(position.longDescription);
+        return Objects.equals(title, position.title) &&
+                Objects.equals(periodStart, position.periodStart) &&
+                Objects.equals(periodEnd, position.periodEnd) &&
+                Objects.equals(shortDescription, position.shortDescription) &&
+                Objects.equals(longDescription, position.longDescription);
     }
 
     @Override

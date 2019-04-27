@@ -18,28 +18,17 @@ public class ResumeTestData {
 
         Map<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
 
-        AbstractSection objective = new TextSection();
-        AbstractSection personal = new TextSection();
-        AbstractSection achievement = new ListSection();
-        AbstractSection qualifications = new ListSection();
-        AbstractSection experience = new OrganizationSection();
-        AbstractSection education = new OrganizationSection();
-
         String objectiveContent = "Java Engineer";
-        objective.setContent(objectiveContent);
 
         String personalContent = "Аналитический склад ума, сильная логика, креативность, инициативность.";
-        personal.setContent(personalContent);
 
         List<String> achievementContent = new ArrayList<>();
         achievementContent.add("Реализация протоколов по приему платежей.");
         achievementContent.add("Создание JavaEE фреймворка для отказоустойчивого взаимодействия.");
-        achievement.setContent(achievementContent);
 
         List<String> qualificationsContent = new ArrayList<>();
         qualificationsContent.add("Инструменты: Maven + plugin development, Gradle, настройка Ngnix.");
         qualificationsContent.add("Технологии: Servlet, JSP/JSTL, JAX-WS, REST, EJB, RMI, JMS.");
-        qualifications.setContent(qualificationsContent);
 
         List<Position> experienceContent = new ArrayList<>();
         Position experiencePosition1 = new Position(
@@ -56,7 +45,6 @@ public class ResumeTestData {
                 "Автор проекта",
                 "Создание, организация и проведение Java онлайн проектов и стажировок.");
         experienceContent.add(experiencePosition2);
-        experience.setContent(experienceContent);
 
         List<Position> educationContent = new ArrayList<>();
         Position educationPosition1 = new Position(
@@ -66,7 +54,13 @@ public class ResumeTestData {
                 "\"Functional Programming Principles in Scala\" by Martin Odersky",
                 "");
         educationContent.add(educationPosition1);
-        education.setContent(educationContent);
+
+        AbstractSection objective = new TextSection(objectiveContent);
+        AbstractSection personal = new TextSection(personalContent);
+        AbstractSection achievement = new ListSection(achievementContent);
+        AbstractSection qualifications = new ListSection(qualificationsContent);
+        AbstractSection experience = new OrganizationSection(experienceContent);
+        AbstractSection education = new OrganizationSection(educationContent);
 
         sections.put(SectionType.OBJECTIVE, objective);
         sections.put(SectionType.PERSONAL, personal);

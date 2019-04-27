@@ -8,12 +8,14 @@ public class ListSection extends AbstractSection<List<String>> {
 
     private List<String> content = new ArrayList<>();
 
-    @Override
+    public ListSection(List<String> content) {
+        this.content = content;
+    }
+
     public void setContent(List<String> content) {
         this.content.addAll(content);
     }
 
-    @Override
     public List<String> getContent() {
         return content;
     }
@@ -23,7 +25,7 @@ public class ListSection extends AbstractSection<List<String>> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ListSection that = (ListSection) o;
-        return content.equals(that.content);
+        return Objects.equals(content, that.content);
     }
 
     @Override
