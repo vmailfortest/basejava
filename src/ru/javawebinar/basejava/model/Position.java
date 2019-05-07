@@ -4,18 +4,21 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class Position {
-    private String title;
+    private Link homepage;
     private LocalDate periodStart;
     private LocalDate periodEnd;
-    private String shortDescription;
-    private String longDescription;
+    private String title;
+    private String description;
 
-    public Position(String title, LocalDate periodStart, LocalDate periodEnd, String shortDescription, String longDescription) {
-        this.title = title;
+    public Position(String name, String url, LocalDate periodStart, LocalDate periodEnd, String title, String description) {
+        Objects.requireNonNull(periodStart, "periodStart must not be null");
+        Objects.requireNonNull(periodEnd, "periodEnd must not be null");
+        Objects.requireNonNull(title, "title must not be null");
+        this.homepage = new Link(name, url);
         this.periodStart = periodStart;
         this.periodEnd = periodEnd;
-        this.shortDescription = shortDescription;
-        this.longDescription = longDescription;
+        this.title = title;
+        this.description = description;
     }
 
     @Override
@@ -23,15 +26,15 @@ public class Position {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Position position = (Position) o;
-        return Objects.equals(title, position.title) &&
+        return Objects.equals(homepage, position.homepage) &&
                 Objects.equals(periodStart, position.periodStart) &&
                 Objects.equals(periodEnd, position.periodEnd) &&
-                Objects.equals(shortDescription, position.shortDescription) &&
-                Objects.equals(longDescription, position.longDescription);
+                Objects.equals(title, position.title) &&
+                Objects.equals(description, position.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, periodStart, periodEnd, shortDescription, longDescription);
+        return Objects.hash(homepage, periodStart, periodEnd, title, description);
     }
 }

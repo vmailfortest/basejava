@@ -9,6 +9,7 @@ public class OrganizationSection extends AbstractSection {
     private List<Position> content = new ArrayList<>();
 
     public OrganizationSection(List<Position> content) {
+        Objects.requireNonNull(content, "Content must not be null");
         this.content = content;
     }
 

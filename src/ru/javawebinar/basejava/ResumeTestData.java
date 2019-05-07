@@ -33,6 +33,7 @@ public class ResumeTestData {
         List<Position> experienceContent = new ArrayList<>();
         Position experiencePosition1 = new Position(
                 "Wrike",
+                "http://wrike.com",
                 LocalDate.of(2014, 11, 01),
                 LocalDate.of(2016, 01, 01),
                 "Старший разработчик (backend)",
@@ -40,6 +41,7 @@ public class ResumeTestData {
         experienceContent.add(experiencePosition1);
         Position experiencePosition2 = new Position(
                 "Java Online Projects",
+                "http://javaops.ru",
                 LocalDate.of(2016, 05, 01),
                 LocalDate.now(),
                 "Автор проекта",
@@ -49,6 +51,7 @@ public class ResumeTestData {
         List<Position> educationContent = new ArrayList<>();
         Position educationPosition1 = new Position(
                 "Coursera",
+                "http://coursera.com",
                 LocalDate.of(2013, 03, 01),
                 LocalDate.of(2013, 05, 01),
                 "\"Functional Programming Principles in Scala\" by Martin Odersky",
