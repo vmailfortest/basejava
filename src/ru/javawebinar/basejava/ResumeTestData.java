@@ -1,8 +1,10 @@
 package ru.javawebinar.basejava;
 
 import ru.javawebinar.basejava.model.*;
+import ru.javawebinar.basejava.util.DateUtil;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
@@ -34,15 +36,15 @@ public class ResumeTestData {
         Position experiencePosition1 = new Position(
                 "Wrike",
                 "http://wrike.com",
-                LocalDate.of(2014, 11, 01),
-                LocalDate.of(2016, 01, 01),
+                DateUtil.of(2014, Month.NOVEMBER),
+                DateUtil.of(2016, Month.JANUARY),
                 "Старший разработчик (backend)",
                 "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.");
         experienceContent.add(experiencePosition1);
         Position experiencePosition2 = new Position(
                 "Java Online Projects",
                 "http://javaops.ru",
-                LocalDate.of(2016, 05, 01),
+                DateUtil.of(2016, Month.MAY),
                 LocalDate.now(),
                 "Автор проекта",
                 "Создание, организация и проведение Java онлайн проектов и стажировок.");
@@ -52,10 +54,15 @@ public class ResumeTestData {
         Position educationPosition1 = new Position(
                 "Coursera",
                 "http://coursera.com",
-                LocalDate.of(2013, 03, 01),
-                LocalDate.of(2013, 05, 01),
+                DateUtil.of(2013, Month.MARCH),
+                DateUtil.of(2013, Month.AUGUST),
                 "\"Functional Programming Principles in Scala\" by Martin Odersky",
                 "");
+        educationPosition1.addPositionWorkPeriod(
+                DateUtil.of(2012, Month.APRIL),
+                DateUtil.of(2010, Month.MAY),
+                "Base Java course",
+                "Java basic course.");
         educationContent.add(educationPosition1);
 
         AbstractSection objective = new TextSection(objectiveContent);
