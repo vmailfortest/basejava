@@ -13,7 +13,7 @@ import java.util.Map;
 public class ResumeTestData {
     public static Resume resume;
 
-    ResumeTestData(String[] args) {
+    static {
         resume = new Resume("Vasya");
 
         Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
