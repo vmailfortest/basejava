@@ -39,6 +39,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         try {
             result = doRead(file);
         } catch (IOException e) {
+            throw new StorageException("IO error", file.getName(), e);
         }
         return result;
     }
@@ -61,13 +62,14 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     protected List<Resume> doCopyAll() {
         List<Resume> result = new ArrayList<>();
         File[] listFiles = directory.listFiles();
-        if (listFiles != null) {
-            for (File file : listFiles) {
-                try {
-                    result.add(doRead(file));
-                } catch (IOException e) {
-                    throw new StorageException("IO error", file.getName(), e);
-                }
+        if (listFiles == null) {
+            throw new StorageException("Directory IO error", directory.getName());
+        }
+        for (File file : listFiles) {
+            try {
+                result.add(doRead(file));
+            } catch (IOException e) {
+                throw new StorageException("IO error", file.getName(), e);
             }
         }
         return result;
@@ -86,16 +88,21 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     public void clear() {
         File[] listFiles = directory.listFiles();
-        if (listFiles != null) {
-            for (File file : listFiles) {
-                file.delete();
-            }
+        if (listFiles == null) {
+            throw new StorageException("Directory IO error", directory.getName());
+        }
+        for (File file : listFiles) {
+            file.delete();
         }
     }
 
     @Override
     public int size() {
-        return directory.listFiles().length;
+        try {
+            return directory.listFiles().length;
+        } catch (NullPointerException e) {
+            throw new StorageException("Directory IO error", directory.getName());
+        }
     }
 
     protected abstract void doWrite(Resume r, File file) throws IOException;
