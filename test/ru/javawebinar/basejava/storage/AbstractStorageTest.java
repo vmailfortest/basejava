@@ -28,18 +28,10 @@ public class AbstractStorageTest {
     protected static final Resume RESUME_4;
 
     static {
-        RESUME_1 = new Resume(UUID_1, "Asd Fgh");
-        RESUME_2 = new Resume(UUID_2, "Qwe Pok");
-        RESUME_3 = new Resume(UUID_3, "Asd Wsx");
-        RESUME_4 = new Resume(UUID_4, "Qaz Qasw");
-        RESUME_1.setContacts(ResumeTestData.resume.getContacts());
-        RESUME_1.setSections(ResumeTestData.resume.getSections());
-        RESUME_2.setContacts(ResumeTestData.resume.getContacts());
-        RESUME_2.setSections(ResumeTestData.resume.getSections());
-        RESUME_3.setContacts(ResumeTestData.resume.getContacts());
-        RESUME_3.setSections(ResumeTestData.resume.getSections());
-        RESUME_4.setContacts(ResumeTestData.resume.getContacts());
-        RESUME_4.setSections(ResumeTestData.resume.getSections());
+        RESUME_1 = ResumeTestData.generateResume(UUID_1, "Asd Fgh");
+        RESUME_2 = ResumeTestData.generateResume(UUID_2, "Qwe Pok");
+        RESUME_3 = ResumeTestData.generateResume(UUID_3, "Asd Wsx");
+        RESUME_4 = ResumeTestData.generateResume(UUID_4, "Qaz Qasw");
     }
 
     protected AbstractStorageTest(Storage storage) {

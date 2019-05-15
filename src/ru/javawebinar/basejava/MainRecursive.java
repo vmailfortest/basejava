@@ -6,15 +6,15 @@ import java.util.Objects;
 public class MainRecursive {
     public static void main(String[] args) {
         File dir = new File("./");
-        Recursive(dir);
+        recursive(dir);
     }
 
-    public static void Recursive(File dir) {
+    public static void recursive(File dir) {
         File[] list = dir.listFiles();
         Objects.requireNonNull(list, "ERROR: Path '" + dir + "' is invalid!");
         for (File name : list) {
             if (name.isDirectory()) {
-                Recursive(name);
+                recursive(name);
             } else {
                 System.out.println(name.getName());
             }

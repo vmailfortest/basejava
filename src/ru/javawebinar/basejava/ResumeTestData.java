@@ -11,10 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 public class ResumeTestData {
-    public static Resume resume;
-
-    static {
-        resume = new Resume("Vasya");
+    public static Resume generateResume(String uuid, String fullName) {
+        Resume resume = new Resume(uuid, fullName);
 
         Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
         contacts.put(ContactType.SKYPE, "MySkype");
@@ -83,5 +81,7 @@ public class ResumeTestData {
 
         resume.setContacts(contacts);
         resume.setSections(sections);
+
+        return resume;
     }
 }
