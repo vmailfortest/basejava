@@ -1,40 +1,38 @@
 package ru.javawebinar.basejava.model;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class Position {
-    private Link homepage;
+    private LocalDate periodStart;
+    private LocalDate periodEnd;
+    private String title;
+    private String description;
 
-    private List<PositionWorkPeriod> positionWorkPeriodList;
-
-    public Position(String name, String url, LocalDate periodStart, LocalDate periodEnd, String title, String description) {
+    public Position(LocalDate periodStart, LocalDate periodEnd, String title, String description) {
         Objects.requireNonNull(periodStart, "periodStart must not be null");
         Objects.requireNonNull(periodEnd, "periodEnd must not be null");
         Objects.requireNonNull(title, "title must not be null");
 
-        this.homepage = new Link(name, url);
-        this.positionWorkPeriodList = new ArrayList<>();
-        positionWorkPeriodList.add(new PositionWorkPeriod(periodStart, periodEnd, title, description));
-    }
-
-    public void addPositionWorkPeriod(LocalDate periodStart, LocalDate periodEnd, String title, String description) {
-        positionWorkPeriodList.add(new PositionWorkPeriod(periodStart, periodEnd, title, description));
+        this.periodStart = periodStart;
+        this.periodEnd = periodEnd;
+        this.title = title;
+        this.description = description;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Position position = (Position) o;
-        return Objects.equals(homepage, position.homepage) &&
-                Objects.equals(positionWorkPeriodList, position.positionWorkPeriodList);
+        Position that = (Position) o;
+        return Objects.equals(periodStart, that.periodStart) &&
+                Objects.equals(periodEnd, that.periodEnd) &&
+                Objects.equals(title, that.title) &&
+                Objects.equals(description, that.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(homepage, positionWorkPeriodList);
+        return Objects.hash(periodStart, periodEnd, title, description);
     }
 }

@@ -34,38 +34,38 @@ public class ResumeTestData {
         qualificationsContent.add("Инструменты: Maven + plugin development, Gradle, настройка Ngnix.");
         qualificationsContent.add("Технологии: Servlet, JSP/JSTL, JAX-WS, REST, EJB, RMI, JMS.");
 
-        List<Position> experienceContent = new ArrayList<>();
-        Position experiencePosition1 = new Position(
+        List<Organization> experienceContent = new ArrayList<>();
+        Organization experienceOrganization1 = new Organization(
                 "Wrike",
                 "http://wrike.com",
                 DateUtil.of(2014, Month.NOVEMBER),
                 DateUtil.of(2016, Month.JANUARY),
                 "Старший разработчик (backend)",
                 "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.");
-        experienceContent.add(experiencePosition1);
-        Position experiencePosition2 = new Position(
+        experienceContent.add(experienceOrganization1);
+        Organization experienceOrganization2 = new Organization(
                 "Java Online Projects",
                 "http://javaops.ru",
                 DateUtil.of(2016, Month.MAY),
                 LocalDate.now(),
                 "Автор проекта",
                 "Создание, организация и проведение Java онлайн проектов и стажировок.");
-        experienceContent.add(experiencePosition2);
+        experienceContent.add(experienceOrganization2);
 
-        List<Position> educationContent = new ArrayList<>();
-        Position educationPosition1 = new Position(
+        List<Organization> educationContent = new ArrayList<>();
+        Organization educationOrganization1 = new Organization(
                 "Coursera",
                 "http://coursera.com",
                 DateUtil.of(2013, Month.MARCH),
                 DateUtil.of(2013, Month.AUGUST),
                 "\"Functional Programming Principles in Scala\" by Martin Odersky",
                 "");
-        educationPosition1.addPositionWorkPeriod(
+        educationOrganization1.addPosition(
                 DateUtil.of(2012, Month.APRIL),
                 DateUtil.of(2010, Month.MAY),
                 "Base Java course",
                 "Java basic course.");
-        educationContent.add(educationPosition1);
+        educationContent.add(educationOrganization1);
 
         AbstractSection objective = new TextSection(objectiveContent);
         AbstractSection personal = new TextSection(personalContent);

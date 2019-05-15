@@ -6,18 +6,18 @@ import java.util.Objects;
 
 public class OrganizationSection extends AbstractSection {
 
-    private List<Position> content = new ArrayList<>();
+    private List<Organization> content = new ArrayList<>();
 
-    public OrganizationSection(List<Position> content) {
+    public OrganizationSection(List<Organization> content) {
         Objects.requireNonNull(content, "Content must not be null");
         this.content = content;
     }
 
-    public void setContent(List<Position> content) {
+    public void setContent(List<Organization> content) {
         this.content.addAll(content);
     }
 
-    public List<Position> getContent() {
+    public List<Organization> getContent() {
         return content;
     }
 
