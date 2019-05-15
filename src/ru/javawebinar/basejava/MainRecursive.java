@@ -1,6 +1,7 @@
 package ru.javawebinar.basejava;
 
 import java.io.File;
+import java.util.Objects;
 
 public class MainRecursive {
     public static void main(String[] args) {
@@ -10,6 +11,7 @@ public class MainRecursive {
 
     public static void Recursive(File dir) {
         File[] list = dir.listFiles();
+        Objects.requireNonNull(list, "ERROR: Path '" + dir + "' is invalid!");
         for (File name : list) {
             if (name.isDirectory()) {
                 Recursive(name);
