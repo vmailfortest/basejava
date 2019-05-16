@@ -24,38 +24,38 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    protected void doSave(Resume r, File file) {
+    protected void doSave(Resume resume, File file) {
         try {
             file.createNewFile();
-            doWrite(r, file);
         } catch (IOException e) {
-            throw new StorageException("IO error", file.getName(), e);
+            throw new StorageException("Unable to create file" + file.getAbsolutePath(), file.getName(), e);
         }
+        doUpdate(resume, file);
     }
 
     @Override
     protected Resume doGet(File file) {
-        Resume result = null;
         try {
-            result = doRead(file);
+            return doRead(file);
         } catch (IOException e) {
-            throw new StorageException("IO error", file.getName(), e);
+            throw new StorageException("File read error", file.getName(), e);
         }
-        return result;
     }
 
     @Override
-    protected void doUpdate(Resume r, File file) {
+    protected void doUpdate(Resume resume, File file) {
         try {
-            doWrite(r, file);
+            doWrite(resume, file);
         } catch (IOException e) {
-            throw new StorageException("IO error", file.getName(), e);
+            throw new StorageException("File write error", file.getName(), e);
         }
     }
 
     @Override
     protected void doDelete(File file) {
-        file.delete();
+        if (!file.delete()) {
+            throw new StorageException("File delete error", file.getName());
+        }
     }
 
     @Override
@@ -66,23 +66,9 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
             throw new StorageException("Directory IO error", directory.getName());
         }
         for (File file : listFiles) {
-            try {
-                result.add(doRead(file));
-            } catch (IOException e) {
-                throw new StorageException("IO error", file.getName(), e);
-            }
+            result.add(doGet(file));
         }
         return result;
-    }
-
-    @Override
-    protected File getSearchKey(String uuid) {
-        return new File(directory, uuid);
-    }
-
-    @Override
-    protected boolean isExist(File file) {
-        return file.exists();
     }
 
     @Override
@@ -101,11 +87,21 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         try {
             return directory.listFiles().length;
         } catch (NullPointerException e) {
-            throw new StorageException("Directory IO error", directory.getName());
+            throw new StorageException("Directory read error", directory.getName());
         }
     }
 
-    protected abstract void doWrite(Resume r, File file) throws IOException;
+    @Override
+    protected File getSearchKey(String uuid) {
+        return new File(directory, uuid);
+    }
+
+    @Override
+    protected boolean isExist(File file) {
+        return file.exists();
+    }
+
+    protected abstract void doWrite(Resume resume, File file) throws IOException;
 
     protected abstract Resume doRead(File file) throws IOException;
 }
