@@ -12,6 +12,8 @@ public abstract class AbstractStorage<SK> implements Storage {
 
     private static final Logger LOG = Logger.getLogger(AbstractStorage.class.getName());
 
+    protected Serialization serializationStrategy;
+
     protected abstract void doSave(Resume resume, SK searchKey);
 
     protected abstract Resume doGet(SK searchKey);
@@ -77,5 +79,9 @@ public abstract class AbstractStorage<SK> implements Storage {
             throw new ExistStorageException(uuid);
         }
         return searchKey;
+    }
+
+    public void setSerializationStrategy(Serialization serializationStrategy) {
+        this.serializationStrategy = serializationStrategy;
     }
 }
