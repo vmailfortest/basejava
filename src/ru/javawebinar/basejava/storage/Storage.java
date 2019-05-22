@@ -7,9 +7,9 @@ import java.util.List;
 public interface Storage {
     void clear();
 
-    void update(Resume r);
+    void update(Resume resume);
 
-    void save(Resume r);
+    void save(Resume resume);
 
     Resume get(String uuid);
 
@@ -18,6 +18,4 @@ public interface Storage {
     List<Resume> getAllSorted();
 
     int size();
-
-    void setSerializationStrategy(Serialization serializationStrategy);
 }
