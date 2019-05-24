@@ -80,8 +80,4 @@ public abstract class AbstractStorage<SK> implements Storage {
         }
         return searchKey;
     }
-
-    public void setSerializationStrategy(Serialization serializationStrategy) {
-        this.serializationStrategy = serializationStrategy;
-    }
 }
