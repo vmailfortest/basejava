@@ -65,22 +65,22 @@ public class ResumeTestData {
                 "Java basic course.");
         educationContent.add(educationOrganization1);
 
-        AbstractSection objective = new TextSection(objectiveContent);
-        AbstractSection personal = new TextSection(personalContent);
-        AbstractSection achievement = new ListSection(achievementContent);
-        AbstractSection qualifications = new ListSection(qualificationsContent);
-        AbstractSection experience = new OrganizationSection(experienceContent);
-        AbstractSection education = new OrganizationSection(educationContent);
-
-        sections.put(SectionType.OBJECTIVE, objective);
-        sections.put(SectionType.PERSONAL, personal);
-        sections.put(SectionType.ACHIEVEMENT, achievement);
-        sections.put(SectionType.QUALIFICATIONS, qualifications);
-        sections.put(SectionType.EXPERIENCE, experience);
-        sections.put(SectionType.EDUCATION, education);
+//        AbstractSection objective = new TextSection(objectiveContent);
+//        AbstractSection personal = new TextSection(personalContent);
+//        AbstractSection achievement = new ListSection(achievementContent);
+//        AbstractSection qualifications = new ListSection(qualificationsContent);
+//        AbstractSection experience = new OrganizationSection(experienceContent);
+//        AbstractSection education = new OrganizationSection(educationContent);
+//
+//        sections.put(SectionType.OBJECTIVE, objective);
+//        sections.put(SectionType.PERSONAL, personal);
+//        sections.put(SectionType.ACHIEVEMENT, achievement);
+//        sections.put(SectionType.QUALIFICATIONS, qualifications);
+//        sections.put(SectionType.EXPERIENCE, experience);
+//        sections.put(SectionType.EDUCATION, education);
 
         resume.setContacts(contacts);
-        resume.setSections(sections);
+//        resume.setSections(sections);
 
         return resume;
     }

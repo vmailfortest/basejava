@@ -2,6 +2,7 @@ package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
+import ru.javawebinar.basejava.storage.serializer.StreamSerializer;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.Objects;
 public class FileStorage extends AbstractStorage<File> {
     private File directory;
 
-    protected FileStorage(File directory, Serialization serializationStrategy) {
+    protected FileStorage(File directory, StreamSerializer serializationStrategy) {
         this.serializationStrategy = serializationStrategy;
 
         Objects.requireNonNull(directory, "directory must not be null");
