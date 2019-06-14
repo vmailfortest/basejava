@@ -17,14 +17,25 @@ public class Organization implements Serializable {
 
     private Link homepage;
 
-    private List<Position> positions;
+    private List<Position> positions = new ArrayList<>();
 
     public Organization() {
     }
 
+    public Link getHomepage() {
+        return homepage;
+    }
+
+    public List<Position> getPositions() {
+        return positions;
+    }
+
+    public Organization(String name, String url) {
+        this.homepage = new Link(name, url);
+    }
+
     public Organization(String name, String url, LocalDate startDate, LocalDate endDate, String title, String description) {
         this.homepage = new Link(name, url);
-        this.positions = new ArrayList<>();
         positions.add(new Position(startDate, endDate, title, description));
     }
 
@@ -56,6 +67,22 @@ public class Organization implements Serializable {
         private String description;
 
         public Position() {
+        }
+
+        public LocalDate getStartDate() {
+            return startDate;
+        }
+
+        public LocalDate getEndDate() {
+            return endDate;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public String getDescription() {
+            return description;
         }
 
         public Position(LocalDate startDate, LocalDate endDate, String title, String description) {

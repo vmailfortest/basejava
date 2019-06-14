@@ -22,20 +22,22 @@ public class ResumeTestData {
 
         String objectiveContent = "Java Engineer";
 
-        String personalContent = "Аналитический склад ума, сильная логика, креативность, инициативность.";
+        String personalContent = "Clever and creative.";
 
         List<String> achievementContent = new ArrayList<>();
-        achievementContent.add("Реализация протоколов по приему платежей.");
-        achievementContent.add("Создание JavaEE фреймворка для отказоустойчивого взаимодействия.");
+        achievementContent.add("Protocols for payments");
+        achievementContent.add("CreatedJavaEE framework");
 
         List<String> qualificationsContent = new ArrayList<>();
-        qualificationsContent.add("Инструменты: Maven + plugin development, Gradle, настройка Ngnix.");
-        qualificationsContent.add("Технологии: Servlet, JSP/JSTL, JAX-WS, REST, EJB, RMI, JMS.");
+        qualificationsContent.add("Maven + plugin development, Gradle, Ngnix.");
+        qualificationsContent.add("Servlet, JSP/JSTL, JAX-WS, REST, EJB, RMI, JMS.");
 
         List<Organization> experienceContent = new ArrayList<>();
         Organization experienceOrganization1 = new Organization(
                 "Wrike",
-                "http://wrike.com",
+                "http://wrike.com"
+        );
+        experienceOrganization1.addPosition(
                 DateUtil.of(2014, Month.NOVEMBER),
                 DateUtil.of(2016, Month.JANUARY),
                 "Старший разработчик (backend)",
@@ -43,21 +45,27 @@ public class ResumeTestData {
         experienceContent.add(experienceOrganization1);
         Organization experienceOrganization2 = new Organization(
                 "Java Online Projects",
-                "http://javaops.ru",
+                "http://javaops.ru"
+        );
+        experienceOrganization2.addPosition(
                 DateUtil.of(2016, Month.MAY),
                 LocalDate.now(),
                 "Автор проекта",
-                "Создание, организация и проведение Java онлайн проектов и стажировок.");
+                "Создание, организация и проведение Java онлайн проектов и стажировок."
+        );
         experienceContent.add(experienceOrganization2);
 
         List<Organization> educationContent = new ArrayList<>();
         Organization educationOrganization1 = new Organization(
                 "Coursera",
-                "http://coursera.com",
+                "http://coursera.com"
+        );
+        educationOrganization1.addPosition(
                 DateUtil.of(2013, Month.MARCH),
                 DateUtil.of(2013, Month.AUGUST),
                 "\"Functional Programming Principles in Scala\" by Martin Odersky",
-                "");
+                ""
+        );
         educationOrganization1.addPosition(
                 DateUtil.of(2012, Month.APRIL),
                 DateUtil.of(2010, Month.MAY),
@@ -65,22 +73,22 @@ public class ResumeTestData {
                 "Java basic course.");
         educationContent.add(educationOrganization1);
 
-//        AbstractSection objective = new TextSection(objectiveContent);
-//        AbstractSection personal = new TextSection(personalContent);
-//        AbstractSection achievement = new ListSection(achievementContent);
-//        AbstractSection qualifications = new ListSection(qualificationsContent);
-//        AbstractSection experience = new OrganizationSection(experienceContent);
-//        AbstractSection education = new OrganizationSection(educationContent);
-//
-//        sections.put(SectionType.OBJECTIVE, objective);
-//        sections.put(SectionType.PERSONAL, personal);
-//        sections.put(SectionType.ACHIEVEMENT, achievement);
-//        sections.put(SectionType.QUALIFICATIONS, qualifications);
-//        sections.put(SectionType.EXPERIENCE, experience);
-//        sections.put(SectionType.EDUCATION, education);
+        AbstractSection objective = new TextSection(objectiveContent);
+        AbstractSection personal = new TextSection(personalContent);
+        AbstractSection achievement = new ListSection(achievementContent);
+        AbstractSection qualifications = new ListSection(qualificationsContent);
+        AbstractSection experience = new OrganizationSection(experienceContent);
+        AbstractSection education = new OrganizationSection(educationContent);
+
+        sections.put(SectionType.OBJECTIVE, objective);
+        sections.put(SectionType.PERSONAL, personal);
+        sections.put(SectionType.ACHIEVEMENT, achievement);
+        sections.put(SectionType.QUALIFICATIONS, qualifications);
+        sections.put(SectionType.EXPERIENCE, experience);
+        sections.put(SectionType.EDUCATION, education);
 
         resume.setContacts(contacts);
-//        resume.setSections(sections);
+        resume.setSections(sections);
 
         return resume;
     }
