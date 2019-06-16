@@ -27,16 +27,19 @@ public class DataStreamSerializer implements StreamSerializer {
 
             dos.writeInt(sections.size());
             for (Map.Entry<SectionType, AbstractSection> entry : sections.entrySet()) {
-                switch (entry.getKey()){
-                    case OBJECTIVE : case PERSONAL :
+                switch (entry.getKey()) {
+                    case OBJECTIVE:
+                    case PERSONAL:
                         dos.writeUTF(entry.getKey().name());
                         TextSectionWriter(dos, ((TextSection) sections.get(entry.getKey())).getContent());
                         break;
-                    case ACHIEVEMENT : case QUALIFICATIONS :
+                    case ACHIEVEMENT:
+                    case QUALIFICATIONS:
                         dos.writeUTF(entry.getKey().name());
                         ListSectionWriter(dos, ((ListSection) sections.get(entry.getKey())).getContent());
                         break;
-                    case EXPERIENCE : case EDUCATION :
+                    case EXPERIENCE:
+                    case EDUCATION:
                         dos.writeUTF(entry.getKey().name());
                         OrganizationSectionWriter(dos, ((OrganizationSection) sections.get(entry.getKey())).getContent());
                         break;
@@ -62,14 +65,17 @@ public class DataStreamSerializer implements StreamSerializer {
             int sectionsSize = dis.readInt();
             for (int i = 0; i < sectionsSize; i++) {
                 SectionType sectionName = SectionType.valueOf(dis.readUTF());
-                switch (sectionName){
-                    case OBJECTIVE : case PERSONAL :
+                switch (sectionName) {
+                    case OBJECTIVE:
+                    case PERSONAL:
                         sections.put(sectionName, TextSectionReader(dis));
                         break;
-                    case ACHIEVEMENT : case QUALIFICATIONS :
+                    case ACHIEVEMENT:
+                    case QUALIFICATIONS:
                         sections.put(sectionName, ListSectionReader(dis));
                         break;
-                    case EXPERIENCE : case EDUCATION :
+                    case EXPERIENCE:
+                    case EDUCATION:
                         sections.put(sectionName, OrganizationSectionReader(dis));
                         break;
                 }
@@ -95,17 +101,20 @@ public class DataStreamSerializer implements StreamSerializer {
         dos.writeInt(content.size());
         for (Organization organization : content) {
             dos.writeUTF(organization.getHomepage().getName());
-            dos.writeUTF(organization.getHomepage().getUrl());
+            String link = organization.getHomepage().getUrl() == null ? "null" : organization.getHomepage().getUrl();
+            dos.writeUTF(link);
             List<Organization.Position> positions = organization.getPositions();
             dos.writeInt(positions.size());
             for (Organization.Position position : positions) {
                 dos.writeUTF(position.getStartDate().toString());
                 dos.writeUTF(position.getEndDate().toString());
                 dos.writeUTF(position.getTitle());
-                dos.writeUTF(position.getDescription());
+                String description = position.getDescription() == null ? "null" : position.getDescription();
+                dos.writeUTF(description);
             }
         }
     }
+
     private TextSection TextSectionReader(DataInputStream dis) throws IOException {
         return new TextSection(dis.readUTF());
     }
@@ -123,14 +132,23 @@ public class DataStreamSerializer implements StreamSerializer {
         int size = dis.readInt();
         List<Organization> organizations = new ArrayList<>();
         for (int i = 0; i < size; i++) {
-            Organization organization = new Organization(dis.readUTF(), dis.readUTF());
+            String name = dis.readUTF();
+            String url = dis.readUTF();
+            if (url.equals("null")) {
+                url = null;
+            }
+
+            Organization organization = new Organization(name, url);
             int organizationSize = dis.readInt();
             for (int j = 0; j < organizationSize; j++) {
-                organization.addPosition(
-                        LocalDate.parse(dis.readUTF()),
-                        LocalDate.parse(dis.readUTF()),
-                        dis.readUTF(),
-                        dis.readUTF());
+                LocalDate periodStart = LocalDate.parse(dis.readUTF());
+                LocalDate periodEnd = LocalDate.parse(dis.readUTF());
+                String title = dis.readUTF();
+                String description = dis.readUTF();
+                if (description.equals("null")) {
+                    description = null;
+                }
+                organization.addPosition(periodStart, periodEnd, title, description);
             }
             organizations.add(organization);
         }
