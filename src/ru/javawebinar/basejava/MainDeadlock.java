@@ -1,44 +1,28 @@
 package ru.javawebinar.basejava;
 
 public class MainDeadlock {
-    public static Object Lock1 = new Object();
-    public static Object Lock2 = new Object();
-
     public static void main(String args[]) {
-        ThreadDemo1 T1 = new ThreadDemo1();
-        ThreadDemo2 T2 = new ThreadDemo2();
-        T1.start();
-        T2.start();
+        final String lock1 = "lock1";
+        final String lock2 = "lock2";
+        deadLock(lock1, lock2);
+        deadLock(lock2, lock1);
     }
 
-    private static class ThreadDemo1 extends Thread {
-        public void run() {
-            synchronized (Lock1) {
-                System.out.println("Thread 1: Holding lock 1...");
-
-                try { Thread.sleep(10); }
-                catch (InterruptedException e) {}
-                System.out.println("Thread 1: Waiting for lock 2...");
-
-                synchronized (Lock2) {
-                    System.out.println("Thread 1: Holding lock 1 & 2...");
+    private static void deadLock(Object lock1, Object lock2) {
+        new Thread(() -> {
+            System.out.println("Waiting " + lock1);
+            synchronized (lock1) {
+                System.out.println("Holding " + lock1);
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("Waiting " + lock2);
+                synchronized (lock2) {
+                    System.out.println("Holding " + lock2);
                 }
             }
-        }
-    }
-    private static class ThreadDemo2 extends Thread {
-        public void run() {
-            synchronized (Lock2) {
-                System.out.println("Thread 2: Holding lock 2...");
-
-                try { Thread.sleep(10); }
-                catch (InterruptedException e) {}
-                System.out.println("Thread 2: Waiting for lock 1...");
-
-                synchronized (Lock1) {
-                    System.out.println("Thread 2: Holding lock 1 & 2...");
-                }
-            }
-        }
+        }).start();
     }
 }
