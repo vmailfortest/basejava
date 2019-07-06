@@ -3,7 +3,6 @@ package ru.javawebinar.basejava;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Supplier;
 
 public class MainStream {
     public static void main(String[] args) {
@@ -18,31 +17,18 @@ public class MainStream {
         return Arrays.stream(values)
                 .distinct()
                 .sorted()
-                .collect(
-                        (Supplier<ArrayList<Integer>>) ArrayList::new,
-                        (x, y) -> {
-                            if (x.size() == 0) {
-                                x.add(0);
-                            }
-                            x.set(0, x.get(0) * 10 + y);
-                        },
-                        ArrayList::addAll).get(0);
+                .reduce(0, (acc, number) -> acc * 10 + number);
     }
 
     private static List<Integer> oddOrEven(List<Integer> integers) {
         List<Integer> resOdd = new ArrayList<>();
         List<Integer> resEven = new ArrayList<>();
 
-        Integer sum = integers.stream().mapToInt(Integer::intValue).collect(
-                (Supplier<ArrayList<Integer>>) ArrayList::new,
-                (x, y) -> {
-                    if (x.size() == 0) {
-                        x.add(0);
-                    }
-                    (((y % 2) == 0) ? resOdd : resEven).add(y);
-                    x.set(0, x.get(0) + y);
-                },
-                ArrayList::addAll).get(0);
+        int sum = integers.stream().mapToInt(Integer::intValue)
+                .reduce(0, (acc, number) -> {
+                    (((number % 2) == 0) ? resOdd : resEven).add(number);
+                    return acc + number;
+                });
 
         return (sum % 2) == 0 ? resOdd : resEven;
     }
