@@ -25,14 +25,14 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="e5c66dc4-d487-4ff9-ba87-d4093f577159">
-        <schema name="pg_catalog" object-types="table, function, view" />
-        <schema name="public" object-types="table, column, function, view" />
+        <schema name="pg_catalog" object-types="view, function, table" />
+        <schema name="public" object-types="view, function, table" />
       </connection>
     </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="e5c66dc4-d487-4ff9-ba87-d4093f577159">
-      <console name="Connection" type="STANDARD" schema="information_schema" session="Main" />
+      <console name="Connection" type="STANDARD" schema="public" session="Main"><![CDATA[SELECT * FROM resume]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
