@@ -13,7 +13,7 @@ import java.util.List;
 public class SqlStorage implements Storage {
     private SqlHelper sqlHelper;
 
-    SqlStorage(String dbUrl, String dbUser, String dbPassword) {
+    public SqlStorage(String dbUrl, String dbUser, String dbPassword) {
         sqlHelper = new SqlHelper(() -> DriverManager.getConnection(dbUrl, dbUser, dbPassword));
     }
 
@@ -82,15 +82,15 @@ public class SqlStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
-        return sqlHelper.execute("SELECT * FROM resume r ORDER BY r.full_name",
+        return sqlHelper.execute("SELECT * FROM resume r ORDER BY r.full_name,uuid",
                 ps -> {
-            ResultSet rs = ps.executeQuery();
+                    ResultSet rs = ps.executeQuery();
                     List<Resume> allSorted = new ArrayList<>();
-            while (rs.next()) {
-                allSorted.add(new Resume(
-                        rs.getString("uuid").trim(),
-                        rs.getString("full_name")));
-            }
+                    while (rs.next()) {
+                        allSorted.add(new Resume(
+                                rs.getString("uuid"),
+                                rs.getString("full_name")));
+                    }
                     return allSorted;
                 });
     }
