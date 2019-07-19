@@ -66,10 +66,7 @@ public class SqlStorage implements Storage {
             try (PreparedStatement ps = conn.prepareStatement(
                     "DELETE FROM contact c WHERE c.resume_uuid = ?")) {
                 ps.setString(1, resume.getUuid());
-                int sqlResult = ps.executeUpdate();
-                if (sqlResult == 0) {
-                    throw new NotExistStorageException(resume.getUuid());
-                }
+                ps.executeUpdate();
             }
 
             putContactsToDb(conn, resume);
@@ -121,21 +118,16 @@ public class SqlStorage implements Storage {
                     ResultSet rs = ps.executeQuery();
                     List<Resume> allSorted = new ArrayList<>();
                     String prevUuid = "";
-                    while (rs.next()) {
-                        // New resume
+                    while (rs.next()){
                         if (!prevUuid.equals(rs.getString("uuid"))) {
                             Resume resume = new Resume(
                                     rs.getString("uuid"),
                                     rs.getString("full_name"));
-                            getContactFromDb(rs, resume);
                             allSorted.add(resume);
                         }
-                        // Add contacts to existing resume
-                        else {
-                            getContactFromDb(rs, allSorted.get(allSorted.size() - 1));
-                        }
-                        prevUuid = rs.getString("uuid");
-                    }
+                    getContactFromDb(rs, allSorted.get(allSorted.size() - 1));
+                    prevUuid = rs.getString("uuid");
+                }
                     return allSorted;
                 });
     }
