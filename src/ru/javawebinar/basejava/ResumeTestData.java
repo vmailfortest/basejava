@@ -15,8 +15,9 @@ public class ResumeTestData {
         Resume resume = new Resume(uuid, fullName);
 
         Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
-        contacts.put(ContactType.SKYPE, "MySkype");
         contacts.put(ContactType.PHONE, "1234567890");
+        contacts.put(ContactType.SKYPE, "MySkype");
+        contacts.put(ContactType.HOMEPAGE, "http://homepage.com");
 
         Map<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
 

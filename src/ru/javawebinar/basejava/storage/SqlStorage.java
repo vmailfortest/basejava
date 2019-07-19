@@ -6,10 +6,7 @@ import ru.javawebinar.basejava.model.ContactType;
 import ru.javawebinar.basejava.model.Resume;
 import ru.javawebinar.basejava.sql.SqlHelper;
 
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -65,10 +62,18 @@ public class SqlStorage implements Storage {
                     throw new NotExistStorageException(resume.getUuid());
                 }
             }
+
             try (PreparedStatement ps = conn.prepareStatement(
-                    "UPDATE contact c SET value = ? WHERE c.type = ? AND c.resume_uuid = ?")) {
-                putContactsToDb(ps, resume);
+                    "DELETE FROM contact c WHERE c.resume_uuid = ?")) {
+                ps.setString(1, resume.getUuid());
+                int sqlResult = ps.executeUpdate();
+                if (sqlResult == 0) {
+                    throw new NotExistStorageException(resume.getUuid());
+                }
             }
+
+            putContactsToDb(conn, resume);
+
             return null;
         });
     }
@@ -85,10 +90,9 @@ public class SqlStorage implements Storage {
                     throw new ExistStorageException(resume.getUuid());
                 }
             }
-            try (PreparedStatement ps = conn.prepareStatement(
-                    "INSERT INTO contact (value, type, resume_uuid) VALUES (?,?,?) ON CONFLICT DO NOTHING")) {
-                putContactsToDb(ps, resume);
-            }
+
+            putContactsToDb(conn, resume);
+
             return null;
         });
     }
@@ -128,9 +132,7 @@ public class SqlStorage implements Storage {
                         }
                         // Add contacts to existing resume
                         else {
-                            allSorted.get(allSorted.size() - 1).addContact(
-                                    ContactType.valueOf(rs.getString("type")),
-                                    rs.getString("value"));
+                            getContactFromDb(rs, allSorted.get(allSorted.size() - 1));
                         }
                         prevUuid = rs.getString("uuid");
                     }
@@ -156,13 +158,16 @@ public class SqlStorage implements Storage {
         }
     }
 
-    private void putContactsToDb(PreparedStatement ps, Resume resume) throws SQLException {
-        for (Map.Entry<ContactType, String> e : resume.getContacts().entrySet()) {
-            ps.setString(1, e.getValue());
-            ps.setString(2, e.getKey().name());
-            ps.setString(3, resume.getUuid());
-            ps.addBatch();
+    private void putContactsToDb(Connection conn, Resume resume) throws SQLException {
+        try (PreparedStatement ps = conn.prepareStatement(
+                "INSERT INTO contact (value, type, resume_uuid) VALUES (?,?,?) ON CONFLICT DO NOTHING")) {
+            for (Map.Entry<ContactType, String> e : resume.getContacts().entrySet()) {
+                ps.setString(1, e.getValue());
+                ps.setString(2, e.getKey().name());
+                ps.setString(3, resume.getUuid());
+                ps.addBatch();
+            }
+            ps.executeBatch();
         }
-        ps.executeBatch();
     }
 }

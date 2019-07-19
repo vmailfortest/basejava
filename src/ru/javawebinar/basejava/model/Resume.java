@@ -71,6 +71,10 @@ public class Resume implements Comparable<Resume>, Serializable {
         contacts.put(type, value);
     }
 
+    public void removeContact(ContactType type) {
+        contacts.remove(type);
+    }
+
     public void setContacts(Map<ContactType, String> contacts) {
         this.contacts = contacts;
     }

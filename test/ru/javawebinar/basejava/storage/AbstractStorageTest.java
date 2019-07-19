@@ -10,10 +10,7 @@ import ru.javawebinar.basejava.model.ContactType;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -89,12 +86,13 @@ public class AbstractStorageTest {
 
     @Test
     public void update() {
-//        Resume updateResume = new Resume(UUID_1, "UpdatedName");
-        Resume updateResume = RESUME_1;
-        updateResume.setFullName("UpdatedName");
-        updateResume.addContact(ContactType.SKYPE, "UpdatedSkype");
-        storage.update(updateResume);
-        assertEquals(updateResume, storage.get(UUID_1));
+        Resume updatedResume = RESUME_1;
+        updatedResume.setFullName("UpdatedName");
+        updatedResume.addContact(ContactType.SKYPE, "UpdatedSkype");
+        updatedResume.addContact(ContactType.GITHUB, "http://github.com/");
+        updatedResume.removeContact(ContactType.HOMEPAGE);
+        storage.update(updatedResume);
+        assertEquals(updatedResume, storage.get(UUID_1));
     }
 
     @Test(expected = NotExistStorageException.class)
