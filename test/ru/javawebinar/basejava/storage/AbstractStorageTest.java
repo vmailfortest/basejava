@@ -6,11 +6,13 @@ import ru.javawebinar.basejava.Config;
 import ru.javawebinar.basejava.ResumeTestData;
 import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
-import ru.javawebinar.basejava.model.ContactType;
-import ru.javawebinar.basejava.model.Resume;
+import ru.javawebinar.basejava.model.*;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 
@@ -91,6 +93,16 @@ public class AbstractStorageTest {
         updatedResume.addContact(ContactType.SKYPE, "UpdatedSkype");
         updatedResume.addContact(ContactType.GITHUB, "http://github.com/");
         updatedResume.removeContact(ContactType.HOMEPAGE);
+
+        updatedResume.addSection(SectionType.OBJECTIVE, new TextSection("Java Engineer Updated Value"));
+        updatedResume.removeSection(SectionType.PERSONAL);
+        List<String> achievementContent = new ArrayList<>();
+        achievementContent.add("Protocols for payments Updated Here");
+        achievementContent.add("Java Framework - 1");
+        achievementContent.add("Java Framework - 2");
+        updatedResume.addSection(SectionType.ACHIEVEMENT, new ListSection(achievementContent));
+        updatedResume.removeSection(SectionType.QUALIFICATIONS);
+
         storage.update(updatedResume);
         assertEquals(updatedResume, storage.get(UUID_1));
     }

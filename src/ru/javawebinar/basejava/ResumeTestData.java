@@ -27,7 +27,7 @@ public class ResumeTestData {
 
         List<String> achievementContent = new ArrayList<>();
         achievementContent.add("Protocols for payments");
-        achievementContent.add("CreatedJavaEE framework");
+        achievementContent.add("Created JavaEE framework");
 
         List<String> qualificationsContent = new ArrayList<>();
         qualificationsContent.add("Maven + plugin development, Gradle, Ngnix.");
@@ -85,11 +85,11 @@ public class ResumeTestData {
         sections.put(SectionType.PERSONAL, personal);
         sections.put(SectionType.ACHIEVEMENT, achievement);
         sections.put(SectionType.QUALIFICATIONS, qualifications);
-        sections.put(SectionType.EXPERIENCE, experience);
-        sections.put(SectionType.EDUCATION, education);
+//        sections.put(SectionType.EXPERIENCE, experience);
+//        sections.put(SectionType.EDUCATION, education);
 
         resume.setContacts(contacts);
-//        resume.setSections(sections);
+        resume.setSections(sections);
 
         return resume;
     }
