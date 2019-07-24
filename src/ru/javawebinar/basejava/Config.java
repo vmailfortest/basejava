@@ -29,7 +29,7 @@ public class Config {
                     props.getProperty("db.url"),
                     props.getProperty("db.username"),
                     props.getProperty("db.password"));
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             throw new IllegalStateException("Invalid config file " + PROPS.getAbsolutePath());
         }
     }
