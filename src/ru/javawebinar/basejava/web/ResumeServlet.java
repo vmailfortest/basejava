@@ -4,22 +4,26 @@ import ru.javawebinar.basejava.Config;
 import ru.javawebinar.basejava.model.Resume;
 import ru.javawebinar.basejava.storage.Storage;
 
+import javax.servlet.ServletException;
 import java.io.IOException;
 import java.util.List;
 
 public class ResumeServlet extends javax.servlet.http.HttpServlet {
-    protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
+    private Storage storage;
+
+    @Override
+    public void init() throws ServletException {
+        storage = Config.get().getSqlStorage();
+    }
+
+    protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws IOException {
 
     }
 
-    protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
+    protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
-
-        Storage storage = Config.get().getSqlStorage();
-//        File STORAGE_DIR = Config.get().getStorageDir();
-//        Storage storage = new PathStorage(STORAGE_DIR.getAbsolutePath(), new JsonStreamSerializer());
 
         List<Resume> resumeList = storage.getAllSorted();
 
