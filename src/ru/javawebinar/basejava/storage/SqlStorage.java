@@ -4,9 +4,13 @@ import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.*;
 import ru.javawebinar.basejava.sql.SqlHelper;
+import ru.javawebinar.basejava.util.JsonParser;
 
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SqlStorage implements Storage {
     private SqlHelper sqlHelper;
@@ -189,41 +193,52 @@ public class SqlStorage implements Storage {
     }
 
     private void getSectionFromDb(ResultSet rs, Resume resume) throws SQLException {
-        SectionType type = SectionType.valueOf(rs.getString("type"));
         String value = rs.getString("value");
         if (value != null) {
-            switch (type) {
-                case OBJECTIVE:
-                case PERSONAL:
-                    resume.addSection(type, new TextSection(value));
-                    break;
-                case ACHIEVEMENT:
-                case QUALIFICATIONS:
-                    resume.addSection(type, new ListSection(Arrays.asList(value.split("\n"))));
-                    break;
-            }
+            SectionType type = SectionType.valueOf(rs.getString("type"));
+            resume.addSection(type, JsonParser.read(value, AbstractSection.class));
         }
+
+//        SectionType type = SectionType.valueOf(rs.getString("type"));
+//        String value = rs.getString("value");
+//        if (value != null) {
+//            switch (type) {
+//                case OBJECTIVE:
+//                case PERSONAL:
+//                    resume.addSection(type, new TextSection(value));
+//                    break;
+//                case ACHIEVEMENT:
+//                case QUALIFICATIONS:
+//                    resume.addSection(type, new ListSection(Arrays.asList(value.split("\n"))));
+//                    break;
+//                case EXPERIENCE:
+//                case EDUCATION:
+//                    resume.addSection(type, new ListSection(Arrays.asList(value.split("\n"))));
+//                    break;
+//            }
+//        }
     }
 
     private void putSectionsToDb(Connection conn, Resume resume) throws SQLException {
         try (PreparedStatement ps = conn.prepareStatement(
                 "INSERT INTO section (value, type, resume_uuid) VALUES (?,?,?) ON CONFLICT DO NOTHING")) {
             for (Map.Entry<SectionType, AbstractSection> e : resume.getSections().entrySet()) {
-                AbstractSection abstractSection = e.getValue();
-                String stringValue = "";
-
-                switch (e.getKey()) {
-                    case OBJECTIVE:
-                    case PERSONAL:
-                        stringValue = ((TextSection) abstractSection).getContent();
-                        break;
-                    case ACHIEVEMENT:
-                    case QUALIFICATIONS:
-                        stringValue = String.join("\n", ((ListSection) abstractSection).getContent());
-                        break;
-                }
-
-                ps.setString(1, stringValue);
+//                AbstractSection abstractSection = e.getValue();
+//                String stringValue = "";
+//
+//                switch (e.getKey()) {
+//                    case OBJECTIVE:
+//                    case PERSONAL:
+//                        stringValue = ((TextSection) abstractSection).getContent();
+//                        break;
+//                    case ACHIEVEMENT:
+//                    case QUALIFICATIONS:
+//                        stringValue = String.join("\n", ((ListSection) abstractSection).getContent());
+//                        break;
+//                }
+                AbstractSection section = e.getValue();
+                ps.setString(1, JsonParser.write(section, AbstractSection.class));
+//                ps.setString(1, stringValue);
                 ps.setString(2, e.getKey().name());
                 ps.setString(3, resume.getUuid());
                 ps.addBatch();
