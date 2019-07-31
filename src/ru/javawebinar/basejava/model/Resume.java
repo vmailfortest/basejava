@@ -16,7 +16,7 @@ import java.util.UUID;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Resume implements Comparable<Resume>, Serializable {
     private static final long serialVersionUID = 1L;
-    // Unique identifier
+
     private String uuid;
 
     private String fullName;
@@ -67,12 +67,21 @@ public class Resume implements Comparable<Resume>, Serializable {
     }
 
 
+    public String getContact(ContactType type) {
+        return contacts.get(type);
+    }
+
     public void addContact(ContactType type, String value) {
         contacts.put(type, value);
     }
 
     public void removeContact(ContactType type) {
         contacts.remove(type);
+    }
+
+
+    public AbstractSection getSection(SectionType type) {
+        return sections.get(type);
     }
 
     public void addSection(SectionType type, AbstractSection value) {
