@@ -29,6 +29,14 @@ public class Link implements Serializable {
         return url;
     }
 
+    public String toHtml() {
+        if (url.isEmpty()) {
+            return "<h4>" + this.getName() + "<h4>";
+        } else {
+            return "<h4><a href='" + this.getUrl() + "'>" + this.getName() + "</a></h4>";
+        }
+    }
+
     @Override
     public String toString() {
         return "Link(" + name + ',' + url + ')';

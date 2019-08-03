@@ -35,25 +35,25 @@ public class ResumeTestData {
 
         List<Organization> experienceContent = new ArrayList<>();
         Organization experienceOrganization1 = new Organization(
-                "Wrike",
-                "http://wrike.com"
-        );
-        experienceOrganization1.addPosition(
-                DateUtil.of(2014, Month.NOVEMBER),
-                DateUtil.of(2016, Month.JANUARY),
-                "Старший разработчик (backend)",
-                "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.");
-        experienceContent.add(experienceOrganization1);
-        Organization experienceOrganization2 = new Organization(
                 "Java Online Projects",
                 "http://javaops.ru"
         );
-        experienceOrganization2.addPosition(
+        experienceOrganization1.addPosition(
                 DateUtil.of(2016, Month.MAY),
                 LocalDate.now(),
                 "Автор проекта",
                 "Создание, организация и проведение Java онлайн проектов и стажировок."
         );
+        experienceContent.add(experienceOrganization1);
+        Organization experienceOrganization2 = new Organization(
+                "Wrike",
+                "http://wrike.com"
+        );
+        experienceOrganization2.addPosition(
+                DateUtil.of(2014, Month.NOVEMBER),
+                DateUtil.of(2016, Month.JANUARY),
+                "Старший разработчик (backend)",
+                "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.");
         experienceContent.add(experienceOrganization2);
 
         List<Organization> educationContent = new ArrayList<>();
