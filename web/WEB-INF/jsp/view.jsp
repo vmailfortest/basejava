@@ -99,7 +99,7 @@
                                      type="ru.javawebinar.basejava.model.Organization.Position"/>
                         <tr>
                             <td width="200" style="vertical-align: top">
-                                <%=educationPosition.getStartDate()%>
+                                <%=educationPosition.dateToHtml()%>
                             </td>
                             <td><b><%=educationPosition.getTitle()%></b><br/><%=educationPosition.getDescription()%>
                             </td>
@@ -108,7 +108,6 @@
                 </table>
             </c:forEach>
         </c:when>
-
 
     </c:choose>
     </c:forEach>

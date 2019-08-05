@@ -1,8 +1,7 @@
 package ru.javawebinar.basejava.web;
 
 import ru.javawebinar.basejava.Config;
-import ru.javawebinar.basejava.model.ContactType;
-import ru.javawebinar.basejava.model.Resume;
+import ru.javawebinar.basejava.model.*;
 import ru.javawebinar.basejava.storage.Storage;
 
 import javax.servlet.ServletConfig;
@@ -10,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class ResumeServlet extends javax.servlet.http.HttpServlet {
     private Storage storage;
@@ -34,6 +34,30 @@ public class ResumeServlet extends javax.servlet.http.HttpServlet {
                 resume.getContacts().remove(type);
             }
         }
+
+        for (SectionType sectionType : SectionType.values()) {
+            String content = request.getParameter(sectionType.name());
+
+            if (content != null && content.trim().length() != 0) {
+                switch (sectionType) {
+                    case OBJECTIVE:
+                    case PERSONAL:
+                        resume.addSection(sectionType, new TextSection(content));
+                        break;
+                    case ACHIEVEMENT:
+                    case QUALIFICATIONS:
+                        resume.addSection(sectionType, new ListSection(Arrays.asList(content.split("\r\n"))));
+                        break;
+//                    case EXPERIENCE:
+//                    case EDUCATION:
+//                        resume.addSection(type, new OrganizationSection(Arrays.asList(value.split("\n"))));
+//                        break;
+                }
+            } else {
+                resume.getSections().remove(sectionType);
+            }
+        }
+
         storage.update(resume);
         response.sendRedirect("resume");
     }
