@@ -33,75 +33,37 @@
 
     <c:choose>
 
-        <c:when test="${sectionType.toString()=='OBJECTIVE'}">
-            <c:set var="objective" scope="request" value="${sectionEntry.value}"/>
-            <jsp:useBean id="objective" type="ru.javawebinar.basejava.model.TextSection" scope="request"/>
-            <%=objective.getContent()%><br/><br/>
+        <c:when test="${sectionType.toString()=='OBJECTIVE' || sectionType.toString()=='PERSONAL'}">
+            <c:set var="textSectionValue" scope="request" value="${sectionEntry.value}"/>
+            <jsp:useBean id="textSectionValue" type="ru.javawebinar.basejava.model.TextSection" scope="request"/>
+            <%=textSectionValue.getContent()%><br/><br/>
         </c:when>
 
-        <c:when test="${sectionType.toString()=='PERSONAL'}">
-            <c:set var="personal" scope="request" value="${sectionEntry.value}"/>
-            <jsp:useBean id="personal" type="ru.javawebinar.basejava.model.TextSection" scope="request"/>
-            <%=personal.getContent()%><br/><br/>
-        </c:when>
-
-        <c:when test="${sectionType.toString()=='ACHIEVEMENT'}">
-            <c:set var="achievement" scope="request" value="${sectionEntry.value}"/>
-            <jsp:useBean id="achievement" type="ru.javawebinar.basejava.model.ListSection" scope="request"/>
-            <c:forEach var="achievementContent" items="${achievement.content}">
-                <jsp:useBean id="achievementContent" type="java.lang.String"/>
-                <li><%=achievementContent%><br/></li>
+        <c:when test="${sectionType.toString()=='ACHIEVEMENT' || sectionType.toString()=='QUALIFICATIONS'}">
+            <c:set var="listSectionValue" scope="request" value="${sectionEntry.value}"/>
+            <jsp:useBean id="listSectionValue" type="ru.javawebinar.basejava.model.ListSection" scope="request"/>
+            <c:forEach var="listSectionContent" items="${listSectionValue.content}">
+                <jsp:useBean id="listSectionContent" type="java.lang.String"/>
+                <li><%=listSectionContent%><br/></li>
             </c:forEach>
         </c:when>
 
-        <c:when test="${sectionType.toString()=='QUALIFICATIONS'}">
-            <c:set var="qualifications" scope="request" value="${sectionEntry.value}"/>
-            <jsp:useBean id="qualifications" type="ru.javawebinar.basejava.model.ListSection" scope="request"/>
-            <c:forEach var="qualificationsContent" items="${qualifications.content}">
-                <jsp:useBean id="qualificationsContent" type="java.lang.String"/>
-                <li><%=qualificationsContent%><br/></li>
-            </c:forEach>
-        </c:when>
-
-        <c:when test="${sectionType.toString()=='EXPERIENCE'}">
-            <c:set var="experience" scope="request" value="${sectionEntry.value}"/>
-            <jsp:useBean id="experience" type="ru.javawebinar.basejava.model.OrganizationSection" scope="request"/>
-            <c:forEach var="experienceContent" items="${experience.content}">
-                <jsp:useBean id="experienceContent"
+        <c:when test="${sectionType.toString()=='EXPERIENCE' || sectionType.toString()=='EDUCATION'}">
+            <c:set var="orgSectionValue" scope="request" value="${sectionEntry.value}"/>
+            <jsp:useBean id="orgSectionValue" type="ru.javawebinar.basejava.model.OrganizationSection" scope="request"/>
+            <c:forEach var="organization" items="${orgSectionValue.content}">
+                <jsp:useBean id="organization"
                              type="ru.javawebinar.basejava.model.Organization"/>
-                <%=experienceContent.getHomepage().toHtml()%><br/>
+                <%=organization.getHomepage().toHtml()%><br/>
                 <table>
-                    <c:forEach var="experiencePosition" items="${experienceContent.positions}">
-                        <jsp:useBean id="experiencePosition"
+                    <c:forEach var="position" items="${organization.positions}">
+                        <jsp:useBean id="position"
                                      type="ru.javawebinar.basejava.model.Organization.Position"/>
                         <tr>
                             <td width="200" style="vertical-align: top">
-                                <%=experiencePosition.dateToHtml()%>
+                                <%=position.dateToHtml()%>
                             </td>
-                            <td><b><%=experiencePosition.getTitle()%></b><br/><%=experiencePosition.getDescription()%>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                </table>
-            </c:forEach>
-        </c:when>
-
-        <c:when test="${sectionType.toString()=='EDUCATION'}">
-            <c:set var="education" scope="request" value="${sectionEntry.value}"/>
-            <jsp:useBean id="education" type="ru.javawebinar.basejava.model.OrganizationSection" scope="request"/>
-            <c:forEach var="educationContent" items="${education.content}">
-                <jsp:useBean id="educationContent"
-                             type="ru.javawebinar.basejava.model.Organization"/>
-                <%=educationContent.getHomepage().toHtml()%><br/>
-                <table>
-                    <c:forEach var="educationPosition" items="${educationContent.positions}">
-                        <jsp:useBean id="educationPosition"
-                                     type="ru.javawebinar.basejava.model.Organization.Position"/>
-                        <tr>
-                            <td width="200" style="vertical-align: top">
-                                <%=educationPosition.dateToHtml()%>
-                            </td>
-                            <td><b><%=educationPosition.getTitle()%></b><br/><%=educationPosition.getDescription()%>
+                            <td><b><%=position.getTitle()%></b><br/><%=position.getDescription()%>
                             </td>
                         </tr>
                     </c:forEach>
