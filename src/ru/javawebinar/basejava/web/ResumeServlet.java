@@ -1,6 +1,7 @@
 package ru.javawebinar.basejava.web;
 
 import ru.javawebinar.basejava.Config;
+import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.*;
 import ru.javawebinar.basejava.storage.Storage;
 
@@ -24,7 +25,14 @@ public class ResumeServlet extends javax.servlet.http.HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String uuid = request.getParameter("uuid");
         String fullName = request.getParameter("fullName");
-        Resume resume = storage.get(uuid);
+        Resume resume;
+        boolean resumeExists = false;
+        try {
+            resume = storage.get(uuid);
+            resumeExists = true;
+        } catch (NotExistStorageException e) {
+            resume = new Resume(uuid, fullName);
+        }
         resume.setFullName(fullName);
         for (ContactType type : ContactType.values()) {
             String value = request.getParameter(type.name());
@@ -58,7 +66,11 @@ public class ResumeServlet extends javax.servlet.http.HttpServlet {
             }
         }
 
-        storage.update(resume);
+        if (resumeExists) {
+            storage.update(resume);
+        } else {
+            storage.save(resume);
+        }
         response.sendRedirect("resume");
     }
 
@@ -79,6 +91,9 @@ public class ResumeServlet extends javax.servlet.http.HttpServlet {
             case "view":
             case "edit":
                 resume = storage.get(uuid);
+                break;
+            case "create":
+                resume = new Resume("");
                 break;
             default:
                 throw new IllegalArgumentException("Action " + action + " is illegal");
