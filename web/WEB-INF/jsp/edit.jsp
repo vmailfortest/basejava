@@ -62,6 +62,60 @@
                 </c:when>
 
                 <c:when test="${sectionType.toString()=='EXPERIENCE' || sectionType.toString()=='EDUCATION'}">
+                    <div id="addOrganization">
+                        <p class="setting">
+                            <input type="button" id="addOrg" value="Add Organization" onclick="${sectionType}AddOrg();">
+                            <br>
+                            <span id="${sectionType}.newNameSpan"></span><br>
+                            <span id="${sectionType}.newUrlSpan"></span><br>
+                            <span id="${sectionType}.newStartSpan"></span><br>
+                            <span id="${sectionType}.newEndSpan"></span><br>
+                            <span id="${sectionType}.newTitleSpan"></span><br>
+                            <span id="${sectionType}.newDescSpan"></span><br>
+                            <br><br>
+                        </p>
+                    </div>
+                    <script type="text/javascript">
+                        function ${sectionType}AddOrg() {
+                            var newOrgName = document.createElement("input");
+                            newOrgName.setAttribute("type", "text");
+                            newOrgName.setAttribute("name", "${sectionType}.name.new");
+                            newOrgName.setAttribute("size", "30");
+                            newOrgName.setAttribute("placeholder", "Название");
+                            document.getElementById("${sectionType}.newNameSpan").appendChild(newOrgName);
+                            var newOrgUrl = document.createElement("input");
+                            newOrgUrl.setAttribute("type", "text");
+                            newOrgUrl.setAttribute("name", "${sectionType}.link.new");
+                            newOrgUrl.setAttribute("size", "30");
+                            newOrgUrl.setAttribute("placeholder", "Ссылка");
+                            document.getElementById("${sectionType}.newUrlSpan").appendChild(newOrgUrl);
+                            var newPosStart = document.createElement("input");
+                            newPosStart.setAttribute("type", "text");
+                            newPosStart.setAttribute("name", "${sectionType}.start.new");
+                            newPosStart.setAttribute("size", "30");
+                            newPosStart.setAttribute("placeholder", "Период с");
+                            document.getElementById("${sectionType}.newStartSpan").appendChild(newPosStart);
+                            var newPosEnd = document.createElement("input");
+                            newPosEnd.setAttribute("type", "text");
+                            newPosEnd.setAttribute("name", "${sectionType}.end.new");
+                            newPosEnd.setAttribute("size", "30");
+                            newPosEnd.setAttribute("placeholder", "Период до");
+                            document.getElementById("${sectionType}.newEndSpan").appendChild(newPosEnd);
+                            var newPosTitle = document.createElement("textarea");
+                            newPosTitle.setAttribute("type", "text");
+                            newPosTitle.setAttribute("name", "${sectionType}.title.new");
+                            newPosTitle.setAttribute("size", "30");
+                            newPosTitle.setAttribute("placeholder", "Позиция");
+                            document.getElementById("${sectionType}.newTitleSpan").appendChild(newPosTitle);
+                            var newPosDesc = document.createElement("textarea");
+                            newPosDesc.setAttribute("type", "text");
+                            newPosDesc.setAttribute("name", "${sectionType}.desc.new");
+                            newPosDesc.setAttribute("size", "30");
+                            newPosDesc.setAttribute("placeholder", "Описание");
+                            document.getElementById("${sectionType}.newDescSpan").appendChild(newPosDesc);
+                        }
+                    </script>
+
                     <input hidden type="text" name="${sectionType}" value="content">
                     <c:set var="orgSectionValue" scope="request" value="${resume.getSection(sectionType)}"/>
                     <c:if test="${orgSectionValue != null}">
