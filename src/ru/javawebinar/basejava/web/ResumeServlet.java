@@ -10,7 +10,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
+import java.time.LocalDate;
+import java.util.*;
 
 public class ResumeServlet extends javax.servlet.http.HttpServlet {
     private Storage storage;
@@ -43,6 +44,9 @@ public class ResumeServlet extends javax.servlet.http.HttpServlet {
             }
         }
 
+//        Enumeration<String> parameterNames = request.getParameterNames();
+        List<String> parametersList = Collections.list(request.getParameterNames());
+
         for (SectionType sectionType : SectionType.values()) {
             String content = request.getParameter(sectionType.name());
 
@@ -56,10 +60,27 @@ public class ResumeServlet extends javax.servlet.http.HttpServlet {
                     case QUALIFICATIONS:
                         resume.addSection(sectionType, new ListSection(Arrays.asList(content.split("\r\n"))));
                         break;
-//                    case EXPERIENCE:
-//                    case EDUCATION:
-//                        resume.addSection(type, new OrganizationSection(Arrays.asList(value.split("\n"))));
-//                        break;
+                    case EXPERIENCE:
+                    case EDUCATION:
+                        List<Organization> orgContent = new ArrayList<>();
+
+                        for (int i = 0; i < parametersList.size(); i++) {
+                            if (parametersList.get(i).contains(".name.") && parametersList.get(i).contains(sectionType.name())) {
+                                String name = request.getParameterValues(parametersList.get(i))[0];
+                                String url = request.getParameterValues(parametersList.get(i + 1))[0];
+                                Organization organization = new Organization(name, url);
+                                orgContent.add(organization);
+                            }
+                            if (parametersList.get(i).contains(".start.") && parametersList.get(i).contains(sectionType.name())) {
+                                LocalDate start = LocalDate.parse(request.getParameterValues(parametersList.get(i))[0]);
+                                LocalDate end = LocalDate.parse(request.getParameterValues(parametersList.get(i + 1))[0]);
+                                String title = request.getParameterValues(parametersList.get(i + 2))[0];
+                                String desc = request.getParameterValues(parametersList.get(i + 3))[0];
+                                orgContent.get(orgContent.size()-1).addPosition(start, end, title, desc);
+                            }
+                        }
+                        resume.addSection(sectionType, new OrganizationSection(orgContent));
+                        break;
                 }
             } else {
                 resume.getSections().remove(sectionType);

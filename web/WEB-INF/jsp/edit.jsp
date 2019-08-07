@@ -62,19 +62,22 @@
                 </c:when>
 
                 <c:when test="${sectionType.toString()=='EXPERIENCE' || sectionType.toString()=='EDUCATION'}">
+                    <input hidden type="text" name="${sectionType}" value="content">
                     <c:set var="orgSectionValue" scope="request" value="${resume.getSection(sectionType)}"/>
                     <c:if test="${orgSectionValue != null}">
                     <jsp:useBean id="orgSectionValue" type="ru.javawebinar.basejava.model.OrganizationSection" scope="request"/>
                     <c:forEach var="organization" items="${orgSectionValue.content}">
+                        <p hidden>${orgCounter=orgCounter+1}</p>
                         <jsp:useBean id="organization" type="ru.javawebinar.basejava.model.Organization"/>
-                        <dd>Организация: <input type="text" name="${sectionType}" size=30 value="${organization.homepage.name}"></dd><br>
-                        <dd>Ссылка: <input type="text" name="${sectionType}" size=40 value="${organization.homepage.url}"></dd><br><br>
+                        <dd>Организация: <input type="text" name="${sectionType}.name.${orgCounter}" size=30 value="${organization.homepage.name}"></dd><br>
+                        <dd>Ссылка: <input type="text" name="${sectionType}.link.${orgCounter}" size=40 value="${organization.homepage.url}"></dd><br><br>
                         <c:forEach var="position" items="${organization.positions}">
                             <jsp:useBean id="position" type="ru.javawebinar.basejava.model.Organization.Position"/>
-                            <dd>с <input type="text" name="${sectionType}" size=10 value="${position.startDate}"></dd>
-                            <dd>по <input type="text" name="${sectionType}" size=10 value="${position.endDate}"></dd><br>
-                            <textarea rows="2" cols="60" name="${sectionType}">${position.title}</textarea><br>
-                            <textarea rows="5" cols="80" name="${sectionType}">${position.description}</textarea><br><br>
+                            <p hidden>${posCounter=posCounter+1}</p>
+                            <dd>с <input type="text" name="${sectionType}.start.${posCounter}" size=10 value="${position.startDate}"></dd>
+                            <dd>по <input type="text" name="${sectionType}.end.${posCounter}" size=10 value="${position.endDate}"></dd><br>
+                            <textarea rows="2" cols="60" name="${sectionType}.title.${posCounter}">${position.title}</textarea><br>
+                            <textarea rows="5" cols="80" name="${sectionType}.desc.${posCounter}">${position.description}</textarea><br><br>
                         </c:forEach>
                     </c:forEach>
                     </c:if>
